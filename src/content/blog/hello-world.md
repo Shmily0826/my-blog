@@ -2,7 +2,6 @@
 title: '我的第一篇技术博客'
 description: '记录我从零开始搭建 Astro 博客的过程'
 pubDate: 'Mar 26 2026'
-heroImage: '/blog-placeholder-1.jpg'
 ---
 
 ## 为什么我选择 Astro？
