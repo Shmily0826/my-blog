@@ -1,0 +1,15 @@
+---
+title: '我的第一篇技术博客'
+description: '记录我从零开始搭建 Astro 博客的过程'
+pubDate: 'Mar 26 2026'
+heroImage: '/blog-placeholder-1.jpg'
+---
+
+## 为什么我选择 Astro？
+作为一个 IT 学生，我决定挑战自己。
+今天我解决了 `npm` 拼写错误和环境配置问题。
+
+### 我的目标
+* 学习前端工程化
+* 记录学习笔记
+* 打造个人品牌
