@@ -14,7 +14,9 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 <html lang="en">
 	<head>
 		<BaseHead title={title} description={description} />
-		<style>
+		<style is:global>
+
+
 			main {
 				width: calc(100% - 2em);
 				max-width: 100%;
@@ -52,6 +54,54 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 			.last-updated-on {
 				font-style: italic;
 			}
+			/* 外壳：负责固定按钮位置 */
+			.code-wrapper {
+				position: relative; /* 关键：确保按钮以此为准 */
+				margin: 2rem 0;     /* 保持与段落的间距 */
+			}
+			.copy-button {
+				/* 定位控制 */
+				position: absolute;
+				top: 12px;
+				right: 12px;
+				z-index: 10;
+				/* 外观控制 */
+				padding: 5px 12px;
+				font-size: 12px;
+				font-weight: 500;
+				color: rgba(255, 255, 255, 0.8);
+				background: rgba(255, 255, 255, 0.1); /* 半透明背景 */
+				
+				/* 圆角控制：这里设置大一点产生胶囊感 */
+				border-radius: 8px; 
+				border: 1px solid rgba(255, 255, 255, 0.2);
+				
+				/* 交互控制 */
+				cursor: pointer;
+				backdrop-filter: blur(8px); /* 毛玻璃效果，很高级 */
+				transition: all 0.2s ease;
+				opacity: 0; /* 默认隐藏 */
+				z-index: 20;
+			}
+
+		/* 鼠标浮动到代码框时显现 */
+		pre:hover .copy-button {
+			opacity: 1;
+		}
+
+		/* 悬停在按钮上时加亮 */
+		.copy-button:hover {
+			background: rgba(255, 255, 255, 0.2);
+			color: #fff;
+			transform: translateY(-1px); /* 微小的上浮动效 */
+		}
+
+		/* 点击成功的状态 */
+		.copy-button.active {
+			background: #27c93f !important;
+			border-color: #27c93f;
+			color: white;
+		}
 		</style>
 	</head>
 
@@ -75,6 +125,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 							}
 						</div>
 						<h1>{title}</h1>
+						{description && <p class="description">{description}</p>}
 						<hr />
 					</div>
 					<slot />
@@ -82,5 +133,54 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 			</article>
 		</main>
 		<Footer />
+		<script>
+            function setupCopyButtons() {
+                // 找到所有的代码块容器
+                const codeBlocks = document.querySelectorAll('pre');
+
+                codeBlocks.forEach((block) => {
+                    // 1. 检查是否已经套过壳，防止重复执行
+					if (block.parentElement.classList.contains('code-wrapper')) return;
+
+					// 2. 创建一个外壳容器
+					const wrapper = document.createElement('div');
+					wrapper.className = 'code-wrapper';
+					wrapper.style.position = 'relative'; // 外壳负责定位基准
+
+					// 3. 将 pre 放入外壳中
+					block.parentNode.insertBefore(wrapper, block);
+					wrapper.appendChild(block);
+
+					// 4. 将按钮加入外壳（wrapper），而不是 pre 内部
+					const button = document.createElement('button');
+					button.className = 'copy-button';
+					button.innerHTML = 'Copy';
+					wrapper.appendChild(button);
+                    // 4. 点击事件
+                    button.addEventListener('click', async () => {
+                        const code = block.querySelector('code');
+                        const text = code?.innerText || '';
+
+                        try {
+                            await navigator.clipboard.writeText(text);
+                            button.innerHTML = 'Copied!';
+                            button.classList.add('active');
+
+                            setTimeout(() => {
+                                button.innerHTML = 'Copy';
+                                button.classList.remove('active');
+                            }, 2000);
+                        } catch (err) {
+                            console.error('复制失败:', err);
+                        }
+                    });
+                });
+            }
+
+            // 页面加载时运行
+            setupCopyButtons();
+            // 如果你以后开启了 Astro 的 View Transitions，需要监听这个事件
+            document.addEventListener('astro:after-swap', setupCopyButtons);
+        </script>
 	</body>
 </html>

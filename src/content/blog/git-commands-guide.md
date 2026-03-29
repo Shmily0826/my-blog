@@ -1,8 +1,8 @@
 ---
-title: 'git命令'
-description: '记录我从零开始搭建 Astro 博客的过程'
+title: 'Git命令'
+description: '记录常用Git命令'
 pubDate: 'Mar 27 2026'
-heroImage: '../../assets/blog-placeholder-1.jpg'
+heroImage: '../../assets/posts/blog-placeholder-1.jpg'
 
 ---
 
@@ -136,77 +136,14 @@ git clean -fd
 
 ## 📋 快速参考表
 
-~~~
-场景
-
-命令
-
-开始新功能​
-
-
-git checkout -b feature/xxx
-
-
-
-
-保存当前工作​
-
-	
-
-git add . && git commit -m "保存点"
-
-
-
-
-同步远程代码​
-
-	
-
-git pull origin main
-
-
-
-
-上传代码​
-
-	
-
-git push origin feature/xxx
-
-
-
-
-查看状态​
-
-	
-
-git status
-
-
-
-
-查看历史​
-
-	
-
-git log --oneline -5（最近5条）
-
-
-
-
-撤销未提交修改​
-
-	
-
-git checkout -- 文件名
-
-
-
-
-创建发布版本​
-
-	
-
-git tag v1.0.0 && git push origin --tags
-~~~
+| 场景               | 命令                                       |
+| ------------------ | ------------------------------------------ |
+| **开始新功能**     | `git checkout -b feature/xxx`              |
+| **保存当前工作**   | `git add . && git commit -m "保存点"`      |
+| **同步远程代码**   | `git pull origin main`                     |
+| **上传代码**       | `git push origin feature/xxx`              |
+| **查看状态**       | `git status`                               |
+| **查看历史**       | `git log --oneline -5`（最近5条）          |
+| **撤销未提交修改** | `git checkout -- 文件名`                   |
+| **创建发布版本**   | `git tag v1.0.0 && git push origin --tags` |
 
