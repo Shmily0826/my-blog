@@ -35,16 +35,20 @@ body {
 	margin: 0;
 	padding: 0;
 	text-align: left;
-	background-image: url('../assets/ui/Screenshot_2025_1222_112450_PhotoGrid.png'); 
-    background-size: cover;    /* 核心：让图片铺满全屏且不拉伸 */
-    background-position: center; /* 居中显示 */
-    background-attachment: fixed; /* 关键：背景固定，内容滚动（营造高级感） */
-    background-repeat: no-repeat;
 	word-wrap: break-word;
 	overflow-wrap: break-word;
 	color: rgb(var(--gray-light));
 	font-size: 20px;
 	line-height: 1.7;
+}
+
+body.blog-page {
+	background-image: url('../assets/ui/blog-bg.png');
+	background-size: cover;
+	background-position: center;
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+	min-height: 100vh;
 }
 main {
 	width: 1200px;
@@ -127,7 +131,7 @@ code {
 	border-radius: 8px; /* 正文中的小代码*/
 	font-family: 'Cascadia Code', monospace; /* 推荐用这类字体 */
 	font-size: 1em;
-}啥
+}
 /* 2. 代码块容器（外壳）- 关键：负责按钮定位 */
 .code-wrapper {
 	position: relative;
@@ -233,8 +237,10 @@ hr {
     position: sticky;
     top: 0;
     z-index: 1000;
-    background-image: url('../assets/ui/Screenshot_2025_1222_112450_PhotoGrid.png');
-    background-size: cover;
+    /*
+	background-image: url('../assets/ui/Screenshot_2025_1222_112450_PhotoGrid.png');
+    */
+	background-size: cover;
     background-position: center;
     background-attachment: fixed;
     width: 100%;
