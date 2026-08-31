@@ -3,6 +3,7 @@ title: 'Git命令'
 description: '记录常用Git命令'
 pubDate: 'Mar 27 2026'
 heroImage: '../../assets/posts/blog-placeholder-1.jpg'
+draft: false
 
 ---
 

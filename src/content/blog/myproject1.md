@@ -3,6 +3,7 @@ title: 'myproject1'
 description: 'Prompt2Video(CS732)'
 pubDate: 'May 14 2026'
 heroImage: '../../assets/posts/blog-placeholder-3.jpg'
+draft: false
 
 ---
 
