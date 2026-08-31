@@ -4,10 +4,11 @@ description: 'Prompt2Video(CS732)'
 pubDate: 'May 14 2026'
 heroImage: '../../assets/posts/blog-placeholder-3.jpg'
 draft: false
+lang: 'zh-CN'
 
 ---
 
-# Prompt2Video
+## Prompt2Video
 
 ## 仓库链接地址
 

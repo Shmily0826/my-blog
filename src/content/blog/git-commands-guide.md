@@ -4,10 +4,11 @@ description: '记录常用Git命令'
 pubDate: 'Mar 27 2026'
 heroImage: '../../assets/posts/blog-placeholder-1.jpg'
 draft: false
+lang: 'zh-CN'
 
 ---
 
-# 常用的git命令
+## 常用的git命令
 
 ## 🎯 每日必用
 ### 1.提交
