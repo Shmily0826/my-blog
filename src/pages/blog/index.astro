@@ -5,9 +5,12 @@ import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import Header from '../../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 
-const posts = (await getCollection('blog')).sort(
+const BLOG_TITLE = 'Blog — Zhenyu Luo';
+const BLOG_DESCRIPTION =
+	'Notes on building practical software across web, Android, and AI-enabled applications.';
+
+const posts = (await getCollection('blog', ({ data }) => data.draft === false)).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 ---
@@ -15,97 +18,253 @@ const posts = (await getCollection('blog')).sort(
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<BaseHead title={BLOG_TITLE} description={BLOG_DESCRIPTION} />
 		<style>
-			main {
-				width: 960px;
+			@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap');
+			:global(:root) {
+				--ink: #202825;
+				--muted: #66716b;
+				--paper: #f4f5ef;
+				--paper-deep: #e8ebe3;
+				--lime: #b9d832;
+				--blue: #90cfe0;
+				--orange: #f5a66d;
 			}
-			ul {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 2rem;
-				list-style-type: none;
+			:global(body.blog-page) {
+				min-width: 0;
+				background: var(--paper);
+				color: var(--ink);
+				font-family: 'Manrope', sans-serif;
+				font-size: 16px;
+				line-height: 1.6;
+			}
+			:global(body.blog-page) main {
+				box-sizing: border-box;
+				width: 100%;
+				max-width: none;
 				margin: 0;
 				padding: 0;
 			}
-			ul li {
-				width: calc(50% - 1rem);
+			:global(body.blog-page) h1,
+			:global(body.blog-page) h2,
+			:global(body.blog-page) h3 {
+				color: var(--ink) !important;
+				font-family: 'Manrope', sans-serif;
+				text-shadow: none;
 			}
-			ul li * {
-				text-decoration: none;
-				transition: 0.2s ease;
+			:global(body.blog-page) a {
+				color: inherit;
 			}
-			ul li:first-child {
-				width: 100%;
-				margin-bottom: 1rem;
-				text-align: center;
+			:global(body.blog-page time) {
+				color: var(--muted) !important;
+				font-size: inherit;
 			}
-			ul li:first-child img {
-				width: 100%;
+			.blog-main,
+			.blog-hero,
+			.posts-section {
+				box-sizing: border-box;
+				width: min(100%, 1220px);
+				margin: 0 auto;
+				padding-left: 2rem;
+				padding-right: 2rem;
 			}
-			ul li:first-child .title {
-				font-size: 2.369rem;
+			.blog-hero {
+				padding-top: 7rem;
+				padding-bottom: 7rem;
 			}
-			ul li img {
-				margin-bottom: 0.5rem;
-				border-radius: 12px;
+			.eyebrow {
+				margin: 0 0 1.2rem;
+				color: var(--muted);
+				font-family: 'DM Mono', monospace;
+				font-size: .72rem;
+				letter-spacing: .08em;
+				text-transform: uppercase;
 			}
-			ul li a {
+			.eyebrow span {
+				color: var(--lime);
+			}
+			.blog-hero h1 {
+				max-width: 850px;
+				margin: 0 0 1.8rem;
+				font-size: clamp(3.3rem, 7vw, 6.8rem);
+				font-weight: 800;
+				letter-spacing: -.09em;
+				line-height: .95;
+			}
+			.blog-hero h1 em {
+				color: #78877c;
+				font-style: normal;
+			}
+			.blog-lede {
+				max-width: 620px;
+				margin: 0;
+				color: var(--muted);
+				font-size: 1.08rem;
+			}
+			.posts-section {
+				padding-top: 5.5rem;
+				padding-bottom: 7rem;
+				border-top: 1px solid #d9ded2;
+			}
+			.section-heading {
+				margin-bottom: 2.5rem;
+			}
+			.section-heading h2 {
+				margin: 0;
+				font-size: clamp(2rem, 4vw, 3.4rem);
+				letter-spacing: -.07em;
+				line-height: 1.05;
+			}
+			.post-list {
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+			.post-list > li {
+				border-top: 1px solid #d9ded2;
+			}
+			.post-card {
+				display: grid;
+				grid-template-columns: minmax(180px, .42fr) minmax(0, 1fr);
+				gap: 2.5rem;
+				padding: 1.5rem 0;
+			}
+			.post-image {
 				display: block;
+				aspect-ratio: 16 / 9;
+				overflow: hidden;
+				background: var(--paper-deep);
 			}
-			.title {
-				margin: 0;
-				color: rgb(var(--black));
-				line-height: 1;
+			.post-image img {
+				display: block;
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				border-radius: 0;
+				transition: transform .2s ease;
 			}
-			.date {
-				margin: 0;
-				color: rgb(var(--gray));
+			.post-card:hover .post-image img {
+				transform: scale(1.02);
 			}
-			ul li a:hover h4,
-			ul li a:hover .date {
-				color: rgb(var(--accent));
+			.post-copy {
+				display: flex;
+				min-width: 0;
+				flex-direction: column;
+				align-items: flex-start;
+				justify-content: center;
 			}
-			ul a:hover img {
-				box-shadow: var(--box-shadow);
+			.post-meta {
+				display: flex;
+				flex-wrap: wrap;
+				gap: .7rem;
+				margin-bottom: 1rem;
+				color: var(--muted);
+				font-family: 'DM Mono', monospace;
+				font-size: .72rem;
+				text-transform: uppercase;
 			}
-			@media (max-width: 720px) {
-				ul {
-					gap: 0.5em;
+			.post-meta span {
+				color: var(--lime);
+			}
+			.post-copy h3 {
+				margin: 0 0 .75rem;
+				font-size: clamp(1.5rem, 3vw, 2.5rem);
+				letter-spacing: -.06em;
+				line-height: 1.05;
+			}
+			.post-copy h3 a {
+				text-decoration: none;
+			}
+			.post-copy h3 a:hover {
+				color: var(--muted) !important;
+			}
+			.post-description {
+				max-width: 620px;
+				margin: 0 0 1.35rem;
+				color: var(--muted);
+			}
+			.read-link {
+				color: var(--ink);
+				font-family: 'DM Mono', monospace;
+				font-size: .78rem;
+				text-decoration: underline;
+				text-decoration-color: var(--lime);
+				text-underline-offset: .35rem;
+			}
+			.read-link:hover {
+				color: var(--muted);
+			}
+			:global(body.blog-page) :global(a:focus-visible) {
+				outline: 3px solid var(--orange);
+				outline-offset: 4px;
+			}
+			@media (max-width: 700px) {
+				.blog-hero,
+				.posts-section {
+					padding-left: 1.2rem;
+					padding-right: 1.2rem;
 				}
-				ul li {
-					width: 100%;
-					text-align: center;
+				.blog-hero {
+					padding-top: 4.5rem;
+					padding-bottom: 4.5rem;
 				}
-				ul li:first-child {
-					margin-bottom: 0;
+				.blog-hero h1 {
+					font-size: clamp(3rem, 14vw, 4.5rem);
 				}
-				ul li:first-child .title {
-					font-size: 1.563em;
+				.posts-section {
+					padding-top: 4rem;
+					padding-bottom: 4.5rem;
+				}
+				.post-card {
+					grid-template-columns: 1fr;
+					gap: 1.25rem;
+				}
+				.post-image {
+					max-width: 420px;
 				}
 			}
 		</style>
 	</head>
 	<body class="blog-page">
 		<Header />
-		<main>
-			<section>
-				<ul>
-					{
-						posts.map((post) => (
-							<li>
-								<a href={`/blog/${post.id}/`}>
-									{post.data.heroImage && (
-										<Image width={720} height={360} src={post.data.heroImage} alt="" />
-									)}
-									<h4 class="title">{post.data.title}</h4>
-									<p class="date">
+		<main class="blog-main">
+			<section class="blog-hero" aria-labelledby="blog-title">
+				<p class="eyebrow">Writing <span>/</span> Notes</p>
+				<h1 id="blog-title">Notes from building <em>useful software.</em></h1>
+				<p class="blog-lede">
+					Technical notes from learning, debugging, and shipping practical web, Android, and
+					AI-enabled projects.
+				</p>
+			</section>
+
+			<section class="posts-section" aria-labelledby="posts-title">
+				<header class="section-heading">
+					<p class="eyebrow">Published notes</p>
+					<h2 id="posts-title">Recent writing</h2>
+				</header>
+				<ul class="post-list">
+					{posts.map((post) => (
+						<li>
+							<article class="post-card">
+								{post.data.heroImage && (
+									<a class="post-image" href={`/blog/${post.id}/`} aria-label={`Read ${post.data.title}`}>
+										<Image width={720} height={405} src={post.data.heroImage} alt="" />
+									</a>
+								)}
+								<div class="post-copy">
+									<div class="post-meta">
+										<span>Published</span>
 										<FormattedDate date={post.data.pubDate} />
-									</p>
-								</a>
-							</li>
-						))
-					}
+									</div>
+									<h3><a href={`/blog/${post.id}/`}>{post.data.title}</a></h3>
+									<p class="post-description">{post.data.description}</p>
+									<a class="read-link" href={`/blog/${post.id}/`}>
+										Read note <span aria-hidden="true">↗</span>
+									</a>
+								</div>
+							</article>
+						</li>
+					))}
 				</ul>
 			</section>
 		</main>

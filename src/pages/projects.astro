@@ -1,0 +1,68 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+
+const featured = [
+	{
+		index: '01', accent: 'lime', category: 'Android / Digital wellbeing', name: 'Appause',
+		description: 'A privacy-first Android app that adds intentional friction before distracting apps open.',
+		why: 'Instead of hard-blocking apps, Appause introduces a configurable pause so users can reconsider an impulsive open before continuing.',
+		focus: 'I worked across foreground-app detection, the pause/interception flow, local-first persistence, usage insights, OEM reliability handling, and an offline-verified Pro licensing system.',
+		tech: 'Kotlin · Jetpack Compose · Room · DataStore', status: 'Active development · v0.5.39', action: 'GitHub ↗', href: 'https://github.com/Shmily0826/Appause'
+	},
+	{
+		index: '02', accent: 'blue', category: 'Web / Language learning', name: 'EchoLearn',
+		description: 'An English-learning app that turns video content into personalized vocabulary and sentence practice.',
+		why: 'Long-form video can be valuable language input, but turning it into level-appropriate material and something worth reviewing later takes significant manual effort.',
+		focus: 'I built across the React learning experience, transcript and caption retrieval pipeline, CEFR-aware AI analysis, dictionary interaction, spaced repetition, authentication, persistence, and deployment.',
+		tech: 'React · TypeScript · Firebase · Cloudflare · AI APIs', status: 'Live · Web/PWA + Android', action: 'Live app ↗', href: 'https://echo-learn.uk'
+	},
+	{
+		index: '03', accent: 'orange', category: 'Web / Interview preparation', name: 'CareerXP',
+		description: 'A job-preparation MVP that turns CV and job-description gaps into structured interview training.',
+		why: 'A CV may look acceptable on paper while still containing claims that are vague, weakly evidenced, or difficult to defend when an interviewer probes deeper.',
+		focus: 'I designed the workflow around evidence gaps, deterministic readiness scoring, typed AI-provider boundaries, structured validation, daily exercises, feedback, and spaced repetition.',
+		tech: 'Next.js · TypeScript · Prisma · Zod · Vitest · Playwright', status: 'MVP · Core workflow validated'
+	}
+];
+
+const other = [
+	{ category: 'Browser extension / Information analysis', name: 'SignalTap', description: 'A Chrome/Edge browser extension exploring structured analysis and source-grounded judgment for web content.', detail: 'Content extraction · Source grounding · Analysis pipeline', status: 'MVP exploration' },
+	{ category: 'Course / Experimental project', name: 'Prompt2Video', description: 'A tutorial-style full-stack experiment that turns natural-language prompts into structured Remotion video configurations and rendered MP4 output.', detail: 'React · TypeScript · Express · Remotion · DeepSeek', status: 'Course project / Demo', href: 'https://github.com/Shmily0826/Prompt2Video', action: 'GitHub ↗' },
+	{ category: 'Team project / Flutter', name: 'SKY SCOUT', description: 'A team-built Flutter project explored through collaborative product and application development.', detail: 'Team project · Individual contribution kept intentionally unspecified here', status: 'Team project' }
+];
+---
+
+<!doctype html>
+<html lang="en">
+	<head><BaseHead title="Projects — Zhenyu Luo" description="Selected software projects by Zhenyu Luo across Android, web, AI-assisted products, and experimental development." /></head>
+	<body class="projects-page">
+		<Header />
+		<main>
+			<section class="projects-hero" aria-labelledby="page-title"><p class="eyebrow">Selected work</p><h1 id="page-title">Projects built to solve real problems,<br /><em>explore new ideas, and learn through shipping.</em></h1><p>A selection of independent products, experiments, and team projects across Android, web, and AI-assisted software.</p></section>
+
+			<section class="featured-section" aria-labelledby="featured-title"><div class="section-heading"><p class="eyebrow">The main body of work</p><h2 id="featured-title">Featured Projects</h2></div><div class="featured-list">{featured.map((project) => <article class={`featured-project ${project.accent}`}><div class="project-index">{project.index} <span>/</span> {project.category}</div><div class="featured-main"><h3>{project.name}</h3><p class="product-description">{project.description}</p></div><div class="featured-detail"><div><span class="detail-label">Why it exists</span><p>{project.why}</p></div><div><span class="detail-label">Engineering focus</span><p>{project.focus}</p></div></div><div class="featured-meta"><span class="tech">{project.tech}</span><span class="status">{project.status}</span>{project.href && <a href={project.href} target="_blank" rel="noreferrer">{project.action}</a>}</div></article>)}</div></section>
+
+			<section class="other-section" aria-labelledby="other-title"><div class="section-heading"><p class="eyebrow">More experiments</p><h2 id="other-title">Other Projects</h2><p>Smaller builds and collaborative work that shaped how I think about software.</p></div><div class="other-grid">{other.map((project) => <article class="other-project"><div><span class="other-category">{project.category}</span><h3>{project.name}</h3><p>{project.description}</p></div><div class="other-bottom"><span>{project.detail}</span><span>{project.status}</span>{project.href && <a href={project.href} target="_blank" rel="noreferrer">{project.action}</a>}</div></article>)}</div></section>
+
+			<section class="projects-cta" aria-labelledby="cta-title"><p class="eyebrow">Next layer</p><h2 id="cta-title">Want the engineering details?</h2><p>The strongest projects will be expanded into case studies covering architecture, trade-offs, debugging, validation, and what I actually built.</p><a class="cta-link" href="https://github.com/Shmily0826" target="_blank" rel="noreferrer">GitHub ↗</a></section>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	:global(:root) { --ink: #202825; --muted: #66716b; --paper: #f4f5ef; --paper-deep: #e8ebe3; --lime: #b9d832; --blue: #90cfe0; --orange: #f5a66d; }
+	:global(body.projects-page) { background: var(--paper); color: var(--ink); font-family: 'Manrope', sans-serif; font-size: 16px; line-height: 1.6; }
+	:global(body.projects-page) main { width: auto; max-width: none; margin: 0; padding: 0; }
+	:global(body.projects-page) h1, :global(body.projects-page) h2, :global(body.projects-page) h3 { color: var(--ink) !important; text-shadow: none; font-family: 'Manrope', sans-serif; }
+	.projects-hero, .featured-section, .other-section, .projects-cta { max-width: 1220px; margin: 0 auto; padding-left: 2rem; padding-right: 2rem; }
+	.projects-hero { padding-top: 7rem; padding-bottom: 7rem; }.eyebrow { margin: 0 0 1.2rem; color: var(--muted); font-family: 'DM Mono', monospace; font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; }.projects-hero h1 { max-width: 920px; margin-bottom: 1.5rem; font-size: clamp(2.8rem, 5.2vw, 5.6rem); letter-spacing: -.08em; line-height: .98; }.projects-hero h1 em { color: #78877c; font-style: normal; }.projects-hero > p:last-child { max-width: 550px; color: var(--muted); font-size: 1.02rem; }
+	.featured-section { padding-bottom: 7rem; }.section-heading { margin-bottom: 2.5rem; }.section-heading h2, .other-section h2, .projects-cta h2 { margin: 0; font-size: clamp(2rem, 4vw, 3.3rem); letter-spacing: -.06em; line-height: 1.05; }.featured-list { border-top: 1px solid #d9ded2; }.featured-project { display: grid; grid-template-columns: 1fr 1.5fr 1.55fr; gap: 2.5rem; padding: 2rem 0 2.4rem; border-bottom: 1px solid #d9ded2; border-top: 4px solid var(--lime); }.featured-project.blue { border-top-color: var(--blue); }.featured-project.orange { border-top-color: var(--orange); }.project-index, .detail-label, .featured-meta, .other-category, .other-bottom { font-family: 'DM Mono', monospace; font-size: .72rem; }.project-index { color: var(--muted); }.project-index span { color: var(--lime); }.featured-main h3 { margin: 0 0 1rem; font-size: clamp(2.4rem, 4vw, 4.5rem); letter-spacing: -.08em; line-height: .95; }.product-description { margin: 0; font-size: 1.08rem; font-weight: 600; line-height: 1.4; }.featured-detail { display: grid; gap: 1.2rem; }.detail-label { color: var(--ink); text-transform: uppercase; }.featured-detail p { margin: .35rem 0 0; color: var(--muted); font-size: .94rem; line-height: 1.55; }.featured-meta { grid-column: 2 / 4; display: flex; align-items: center; flex-wrap: wrap; gap: 1.2rem; padding-top: 1rem; border-top: 1px solid #e1e5dd; color: var(--muted); }.featured-meta .tech { color: var(--ink); }.featured-meta .status { margin-left: auto; }.featured-meta a, .cta-link { color: var(--ink); text-decoration: underline; text-decoration-color: var(--lime); text-underline-offset: .35rem; }
+	.other-section { padding-bottom: 7rem; }.other-section .section-heading > p:last-child { max-width: 520px; color: var(--muted); }.other-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }.other-project { min-height: 280px; display: flex; flex-direction: column; justify-content: space-between; padding: 1.35rem; border-top: 2px solid #cbd3c7; background: rgba(255,255,255,.48); }.other-category { color: var(--muted); }.other-project h3 { margin: 2.4rem 0 .8rem; font-size: 1.6rem; letter-spacing: -.05em; }.other-project p { margin: 0; color: var(--muted); font-size: .92rem; line-height: 1.5; }.other-bottom { display: grid; gap: .55rem; color: var(--muted); }.other-bottom span:first-child { color: var(--ink); }.other-bottom a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--lime); text-underline-offset: .3rem; }
+	.projects-cta { margin-bottom: 6rem; padding-top: 4rem; padding-bottom: 4rem; border-top: 1px solid #d9ded2; }.projects-cta h2 { margin-bottom: 1rem; }.projects-cta > p:not(.eyebrow) { max-width: 560px; color: var(--muted); }.cta-link { display: inline-block; margin-top: 1rem; font-family: 'DM Mono', monospace; font-size: .8rem; }
+	:global(body.projects-page) :global(a:focus-visible) { outline: 3px solid var(--orange); outline-offset: 4px; }
+	@media (max-width: 900px) { .featured-project { grid-template-columns: 1fr 1.5fr; gap: 1.5rem; }.featured-detail { grid-column: 2; }.featured-meta { grid-column: 1 / 3; }.other-grid { grid-template-columns: 1fr 1fr; } }
+	@media (max-width: 650px) { .projects-hero, .featured-section, .other-section, .projects-cta { padding-left: 1.2rem; padding-right: 1.2rem; }.projects-hero { padding-top: 4.5rem; padding-bottom: 4.5rem; }.projects-hero h1 { font-size: clamp(2.8rem, 12vw, 4.3rem); }.featured-section, .other-section { padding-bottom: 4.5rem; }.featured-project { display: block; padding: 1.5rem 0 2rem; }.featured-main h3 { margin-top: 2.5rem; font-size: 3rem; }.featured-detail { display: grid; margin-top: 2rem; }.featured-meta { display: flex; margin-top: 2rem; }.featured-meta .status { margin-left: 0; }.other-grid { grid-template-columns: 1fr; }.other-project { min-height: 240px; }.projects-cta { margin-bottom: 3rem; } }
+</style>

@@ -1,57 +1,41 @@
 ---
-import AboutHeroImage from '../assets/posts/blog-placeholder-about.jpg';
-import Layout from '../layouts/BlogPost.astro';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
 ---
 
-<Layout
-	title="About Me"
-	description="Self inrtoduction"
-	pubDate={new Date('August 08 2021')}
-	heroImage={AboutHeroImage}
->
-	<p>
-		Shmily from China. Guaduate from CS major.
-	</p>
+<!doctype html>
+<html lang="en">
+	<head><BaseHead title="About — Zhenyu Luo" description="About Zhenyu Luo, a software developer and Master of Information Technology student in Auckland building practical web, Android, and AI-enabled products." /></head>
+	<body class="about-page">
+		<Header />
+		<main>
+			<section class="about-hero" aria-labelledby="about-title"><p class="eyebrow">About the developer <span>/</span> Auckland, NZ</p><h1 id="about-title">I build software<br /><em>to understand how it works.</em></h1><p class="intro">I'm Zhenyu Luo, a software developer and Master of Information Technology student at the University of Auckland with a Computer Science background.</p></section>
 
-	<p>
-		Morbi tristique senectus et netus. Id semper risus in hendrerit gravida rutrum quisque non
-		tellus. Habitasse platea dictumst quisque sagittis purus sit amet. Tellus molestie nunc non
-		blandit massa. Cursus vitae congue mauris rhoncus. Accumsan tortor posuere ac ut. Fringilla urna
-		porttitor rhoncus dolor. Elit ullamcorper dignissim cras tincidunt lobortis. In cursus turpis
-		massa tincidunt dui ut ornare lectus. Integer feugiat scelerisque varius morbi enim nunc.
-		Bibendum neque egestas congue quisque egestas diam. Cras ornare arcu dui vivamus arcu felis
-		bibendum. Dignissim suspendisse in est ante in nibh mauris. Sed tempus urna et pharetra pharetra
-		massa massa ultricies mi.
-	</p>
+			<section class="about-story" aria-labelledby="story-title"><div class="story-label"><p class="eyebrow">How I work</p><span>From first idea<br />to shipped software</span></div><div class="story-copy"><h2 id="story-title">Learning by building, then staying with the hard parts.</h2><p>Most of my learning happens through making. I enjoy taking an idea from an early prototype through implementation, debugging, testing, validation, deployment, and repeated product decisions.</p><p>My current portfolio includes independent projects such as Appause, EchoLearn, and CareerXP. They span Android, web, and AI-enabled applications, but the common thread is practical software built around a real problem.</p></div></section>
 
-	<p>
-		Mollis nunc sed id semper risus in. Convallis a cras semper auctor neque. Diam sit amet nisl
-		suscipit. Lacus viverra vitae congue eu consequat ac felis donec. Egestas integer eget aliquet
-		nibh praesent tristique magna sit amet. Eget magna fermentum iaculis eu non diam. In vitae
-		turpis massa sed elementum. Tristique et egestas quis ipsum suspendisse ultrices. Eget lorem
-		dolor sed viverra ipsum. Vel turpis nunc eget lorem dolor sed viverra. Posuere ac ut consequat
-		semper viverra nam. Laoreet suspendisse interdum consectetur libero id faucibus. Diam phasellus
-		vestibulum lorem sed risus ultricies tristique. Rhoncus dolor purus non enim praesent elementum
-		facilisis. Ultrices tincidunt arcu non sodales neque. Tempus egestas sed sed risus pretium quam
-		vulputate. Viverra suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Fringilla
-		urna porttitor rhoncus dolor purus non. Amet dictum sit amet justo donec enim.
-	</p>
+			<section class="principles-section" aria-labelledby="principles-title"><div class="section-heading"><p class="eyebrow">Working principles</p><h2 id="principles-title">The details are part of the work.</h2></div><div class="principles-grid"><article><span class="principle-mark">01</span><h3>Product thinking</h3><p>Start with what should become easier, clearer, or more useful for the person using the software.</p></article><article><span class="principle-mark">02</span><h3>Engineering discipline</h3><p>Work through architecture, edge cases, debugging, tests, and validation instead of stopping at a convincing demo.</p></article><article><span class="principle-mark">03</span><h3>Useful AI</h3><p>AI tools are part of my development workflow, while requirements, review, engineering decisions, and validation remain human responsibilities.</p></article></div></section>
 
-	<p>
-		Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Tortor posuere ac ut consequat semper
-		viverra. Tellus mauris a diam maecenas sed enim ut sem viverra. Venenatis urna cursus eget nunc
-		scelerisque viverra mauris in. Arcu ac tortor dignissim convallis aenean et tortor at. Curabitur
-		gravida arcu ac tortor dignissim convallis aenean et tortor. Egestas tellus rutrum tellus
-		pellentesque eu. Fusce ut placerat orci nulla pellentesque dignissim enim sit amet. Ut enim
-		blandit volutpat maecenas volutpat blandit aliquam etiam. Id donec ultrices tincidunt arcu. Id
-		cursus metus aliquam eleifend mi.
-	</p>
+			<section class="focus-section" aria-labelledby="focus-title"><div class="focus-label"><p class="eyebrow">Current focus</p><span>Building and learning<br />in public</span></div><div><h2 id="focus-title">Practical software across web, Android, and AI-enabled applications.</h2><ul><li>TypeScript, JavaScript, React, Next.js, and Astro</li><li>Kotlin, Jetpack Compose, and Android platform APIs</li><li>SQL, Prisma, Firebase, REST APIs, and deployment</li><li>Testing, debugging, Git/GitHub, and product trade-offs</li></ul></div></section>
 
-	<p>
-		Tempus quam pellentesque nec nam aliquam sem. Risus at ultrices mi tempus imperdiet. Id porta
-		nibh venenatis cras sed felis eget velit. Ipsum a arcu cursus vitae. Facilisis magna etiam
-		tempor orci eu lobortis elementum. Tincidunt dui ut ornare lectus sit. Quisque non tellus orci
-		ac. Blandit libero volutpat sed cras. Nec tincidunt praesent semper feugiat nibh sed pulvinar
-		proin gravida. Egestas integer eget aliquet nibh praesent tristique magna.
-	</p>
-</Layout>
+			<section class="about-cta" aria-labelledby="connect-title"><p class="eyebrow">Keep exploring</p><h2 id="connect-title">Interested in useful software and the work behind it?</h2><div class="cta-links"><a href="/projects">View projects ↗</a><a href="https://github.com/Shmily0826" target="_blank" rel="noreferrer">GitHub ↗</a><a href="/blog">Read the blog ↗</a></div></section>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	:global(:root) { --ink: #202825; --muted: #66716b; --paper: #f4f5ef; --paper-deep: #e8ebe3; --lime: #b9d832; --blue: #90cfe0; --orange: #f5a66d; }
+	:global(body.about-page) { background: var(--paper); color: var(--ink); font-family: 'Manrope', sans-serif; font-size: 16px; line-height: 1.6; }
+	:global(body.about-page) main { width: auto; max-width: none; margin: 0; padding: 0; }
+	:global(body.about-page) h1, :global(body.about-page) h2, :global(body.about-page) h3 { color: var(--ink); font-family: 'Manrope', sans-serif; text-shadow: none; }
+	.about-hero, .about-story, .principles-section, .focus-section, .about-cta { max-width: 1220px; margin: 0 auto; padding-left: 2rem; padding-right: 2rem; }
+	.eyebrow { margin: 0 0 1.2rem; color: var(--muted); font-family: 'DM Mono', monospace; font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; }.eyebrow span { color: var(--lime); }
+	.about-hero { padding-top: 7rem; padding-bottom: 7rem; }.about-hero h1 { max-width: 900px; margin-bottom: 1.8rem; font-size: clamp(3.2rem, 6.5vw, 7rem); letter-spacing: -.09em; line-height: .95; }.about-hero h1 em { color: #78877c; font-style: normal; }.intro { max-width: 650px; color: var(--muted); font-size: 1.1rem; }
+	.about-story { display: grid; grid-template-columns: .8fr 1.2fr; gap: 5rem; padding-top: 5.5rem; padding-bottom: 7rem; border-top: 1px solid #d9ded2; }.story-label span, .focus-label span { color: var(--muted); font-family: 'DM Mono', monospace; font-size: .72rem; }.story-copy { max-width: 720px; }.story-copy h2, .focus-section h2, .about-cta h2 { margin: 0 0 1.2rem; font-size: clamp(2rem, 4vw, 3.4rem); letter-spacing: -.07em; line-height: 1.05; }.story-copy p, .focus-section li, .principles-grid p, .about-cta > p:not(.eyebrow) { color: var(--muted); }
+	.principles-section { padding-top: 5rem; padding-bottom: 7rem; border-top: 1px solid #d9ded2; }.section-heading { margin-bottom: 2.5rem; }.section-heading h2 { margin: 0; font-size: clamp(2rem, 4vw, 3.4rem); letter-spacing: -.07em; line-height: 1.05; }.principles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }.principles-grid article { padding: 1.25rem 1.25rem 1.5rem; border-top: 3px solid var(--lime); background: rgba(255,255,255,.48); }.principles-grid article:nth-child(2) { border-color: var(--blue); }.principles-grid article:nth-child(3) { border-color: var(--orange); }.principle-mark { color: var(--muted); font-family: 'DM Mono', monospace; font-size: .72rem; }.principles-grid h3 { margin: 2rem 0 .7rem; font-size: 1.35rem; letter-spacing: -.05em; }.principles-grid p { margin: 0; font-size: .92rem; line-height: 1.55; }
+	.focus-section { display: grid; grid-template-columns: .8fr 1.2fr; gap: 5rem; padding-top: 5.5rem; padding-bottom: 7rem; border-top: 1px solid #d9ded2; }.focus-section h2 { max-width: 690px; }.focus-section ul { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem 2rem; margin: 2rem 0 0; padding: 0; list-style: none; font-family: 'DM Mono', monospace; font-size: .8rem; }.focus-section li { padding-top: .8rem; border-top: 1px solid #d9ded2; }.about-cta { margin-bottom: 6rem; padding-top: 4rem; padding-bottom: 4rem; border-top: 1px solid #d9ded2; }.about-cta h2 { max-width: 720px; }.cta-links { display: flex; flex-wrap: wrap; gap: 1.25rem; margin-top: 2rem; }.cta-links a { color: var(--ink); font-family: 'DM Mono', monospace; font-size: .78rem; text-decoration: underline; text-decoration-color: var(--lime); text-underline-offset: .35rem; }.cta-links a:hover { color: var(--muted); }
+	:global(body.about-page) :global(a:focus-visible) { outline: 3px solid var(--orange); outline-offset: 4px; }
+	@media (max-width: 800px) { .about-story, .focus-section { grid-template-columns: 1fr; gap: 1rem; }.principles-grid { grid-template-columns: 1fr; }.focus-section ul { grid-template-columns: 1fr 1fr; } }
+	@media (max-width: 520px) { .about-hero, .about-story, .principles-section, .focus-section, .about-cta { padding-left: 1.2rem; padding-right: 1.2rem; }.about-hero { padding-top: 4.5rem; padding-bottom: 4.5rem; }.about-hero h1 { font-size: clamp(3rem, 14vw, 4.5rem); }.about-story, .principles-section, .focus-section { padding-top: 4rem; padding-bottom: 4.5rem; }.focus-section ul { grid-template-columns: 1fr; }.about-cta { margin-bottom: 3rem; } }
+</style>
