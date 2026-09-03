@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://shmily-blog.vercel.app/sitemap-index.xml
