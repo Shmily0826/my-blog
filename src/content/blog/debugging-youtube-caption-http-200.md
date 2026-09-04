@@ -1,263 +1,102 @@
 ---
-title: 'Debugging a YouTube Caption Failure That Still Returned HTTP 200'
-description: 'An EchoLearn investigation into a YouTube Player response that returned HTTP 200 but exposed no caption tracks, using controlled transport comparisons and a positive control.'
+title: 'What HTTP 200 Misses in a Caption Pipeline'
+description: 'An EchoLearn engineering note on why caption pipelines must validate usable transcript content beyond HTTP status, with layered failure signals for better debugging.'
 pubDate: '2026-09-03'
 lang: 'en'
 draft: true
 ---
 
-
 A request can succeed at the network layer and still fail completely for the user.
 
-I ran into this while investigating YouTube caption reliability in EchoLearn, an English-learning project that turns video content into sentence-level study material, vocabulary practice, and optional AI-assisted analysis.
+EchoLearn turns video captions into sentence-level English-learning material, vocabulary practice, and optional, user-triggered AI-assisted analysis. That flow depends on an upstream transcript:
 
-For the video-based learning flow, a usable transcript is an upstream dependency:
+`video URL -> captions -> sentences -> vocabulary / analysis -> review`
 
-`video URL → captions → sentences → vocabulary / analysis → review`
+That dependency changes how success should be defined. A completed request is useful evidence, but it is not the same thing as usable application data.
 
-One failure case looked healthy at first. The YouTube Player request returned:
+## Start with the right definition of success
 
-`HTTP 200`
+For a caption pipeline, `response.status === 200` answers a narrow question: did the server return a response? It does not tell me whether the response is valid JSON, whether the expected fields are present, or whether there is any transcript content that a learner can use.
 
-But the response also reported:
+There are several meaningful checkpoints between a request and a study activity:
 
-`LOGIN_REQUIRED`
+`request completed`
 
-and exposed:
+-> `response parsed`
 
-`0 caption tracks`
+-> `availability or playability state understood`
 
-So the transport had succeeded, but EchoLearn still had nothing it could turn into study material.
+-> `caption data exposed`
 
-That distinction became the most useful part of the investigation.
+-> `track selected`
 
-## The failure looked healthy from the outside
+-> `transcript lines validated`
 
-An HTTP status code answers a narrow question: did the server return a response?
+The last step matters. A response with a successful HTTP status but no usable lines has not completed the application task. Treating it as success would move an upstream failure into a later learning step, where it becomes harder to diagnose.
 
-It does not answer whether the response contains the application data I need.
+This is a general integration lesson: external services can return transport-level success while withholding, changing, or invalidating the data an application needs. Validate the response at the application boundary.
 
-For the failing target video, the Player endpoint returned HTTP 200 while exposing no caption tracks.
+## What the committed pipeline actually checks
 
-A known-good positive control behaved differently in the same environment:
+Reviewing the committed EchoLearn API and service paths made this principle concrete. A transcript is not treated as usable merely because a request completed: the committed behavior requires a non-empty `lines` array. The committed tests also cover successful HTTP responses with no usable lines and successful responses containing invalid JSON; those cases must fall through rather than being accepted as a transcript.
 
-`HTTP 200 → OK → 6 caption tracks → English track → timedtext 200 → 61 usable lines`
+The code also represents several structured failure outcomes, including captions not found, provider timeout, transcript disabled, ASR required, and provider failure. That does not mean every low-level cause is perfectly typed end to end. It does mean the system can preserve more diagnostic meaning than one generic “caption failed” result.
 
-This was useful because it showed that the test environment was not simply broken.
+These distinctions need not all become user-facing messages. Internally, they show whether acquisition stopped while contacting a provider, parsing a response, selecting a track, or validating lines.
 
-The server could reach YouTube. The Player request could expose captions. The timed-text request could return a usable transcript.
+## Why positive controls matter
 
-The failure was specific enough to investigate further.
+When an external integration fails, the tempting response is to change several things at once: headers, HTTP libraries, retry rules, proxy settings, or client profiles. That can produce a new result, but it also makes the result difficult to interpret.
 
-## A plausible hypothesis: the HTTP client fingerprint
+A positive control provides a better starting point. Use a known-good input with the same relevant environment, request path, and observation method as the failing case. The control does not prove the cause by itself, but it can separate several possibilities:
 
-One possible explanation was the transport itself.
+- the entire provider path is unavailable;
+- the parser or deployment is broken for every input;
+- the content is unavailable or restricted in a particular way;
+- or the failure is specific to one input or request context.
 
-The requests were running from a VPS rather than a normal consumer browser. I had also been reading upstream documentation and issue reports about YouTube extraction failures, client impersonation, and request context.
+The same discipline applies to controlled experiments: change one meaningful variable where possible, keep request semantics stable, and record what changed. A success from a separate run cannot reconstruct a missing comparison from an older experiment; evidence should stay attached to the run that produced it.
 
-That made a transport-level hypothesis reasonable:
+This matters because third-party responses can vary by content, account state, network, client context, and time. A positive control narrows ambiguity; it is not a universal explanation.
 
-> Maybe the target fails because the server-side HTTP/TLS fingerprint does not look enough like browser traffic.
+## Preserve the failure boundary
 
-Instead of changing several parts of the acquisition pipeline at once, I set up a narrower experiment.
+The caption path is easier to reason about when it keeps its stages visible. Useful signals include transport status, response parsing, availability state, exposed tracks, selected language, timed-text retrieval, and the final count of usable transcript lines.
 
-The Player and timed-text request semantics were kept fixed while the HTTP transport changed.
+Not every signal belongs in a user-facing error. A learner may need only a concise explanation and next action, while the engineering system still records where acquisition stopped. Otherwise, different upstream problems collapse into one vague failure and encourage speculative fixes.
 
-I compared three variants:
+Layered diagnostics also make validation more honest. A provider adapter should not report success because it received bytes. It should report success only after the data has passed the checks required by the next stage. If a provider returns a response that cannot become a non-empty transcript, the result should remain a failure even when the network request itself was healthy.
 
-- native Python HTTP
-- `curl_cffi` with Chrome impersonation
-- `curl_cffi` with Safari impersonation
+This boundary is useful beyond captions. Search, payments, document parsing, and other external integrations all have a difference between “the request completed” and “the application received something safe and usable.” Making that difference explicit is a practical reliability habit.
 
-These were transport impersonation tests, not full Chrome or Safari browser sessions.
+## Keep experiments separate from shipped behavior
 
-I ran every variant against both the failing target and the same known-good positive control.
+Reliability investigations often require small harnesses, adapters, or diagnostic paths. They are valuable because they let me answer one question without changing the whole product. They are not automatically production features.
 
-| Transport | Target video | Positive control |
-| --- | --- | --- |
-| Native Python | HTTP 200, `LOGIN_REQUIRED`, 0 tracks | HTTP 200, `OK`, 6 tracks, timedtext 200, 61 lines |
-| `curl_cffi` Chrome | HTTP 200, `LOGIN_REQUIRED`, 0 tracks | HTTP 200, `OK`, 6 tracks, timedtext 200, 61 lines |
-| `curl_cffi` Safari | HTTP 200, `LOGIN_REQUIRED`, 0 tracks | HTTP 200, `OK`, 6 tracks, timedtext 200, 61 lines |
+That distinction matters when describing transport experiments or fallback ideas. A locally tested approach should not be described as deployed until it has passed the relevant review, validation, and deployment process. A candidate implementation, an investigation harness, and the committed production path are different things, even when they share code or terminology.
 
-Because the target exposed no tracks, there was no target timed-text request to make.
+Keeping those categories separate also improves privacy. Diagnostic work may contain provider responses, request context, or identifiers that belong in local evidence rather than a public article. A technical note can explain the method without publishing exact video IDs, cookies, private URLs, IP addresses, or raw response bodies.
 
-The important part was that the result did not move.
+The useful claim is therefore limited: an investigation can show that a hypothesis became weaker or that a failure boundary became clearer. It should not silently turn experimental work into a claim about what EchoLearn currently ships.
 
-Changing the transport did not change the target Player state.
+## Use external evidence to form hypotheses
 
-At the same time, the positive control remained healthy across all three variants.
+Third-party failures create a strong temptation to reason only from the application code: which function is wrong, which header is missing, or which provider should be retried? Those are reasonable questions, but upstream documentation, issue reports, and open-source implementations can provide additional hypotheses about how a platform behaves.
 
-## A negative result can still be useful
+The important sequence is:
 
-The experiment did not solve the caption problem.
+`external evidence -> hypothesis -> controlled experiment -> local evidence -> limited conclusion`
 
-It did remove one attractive direction from the top of the list.
+External evidence is an input to the investigation, not the conclusion. A community report can make a transport or request-context experiment worth trying. It cannot prove that the same explanation is responsible for a particular local failure.
 
-If a simple raw HTTP/TLS fingerprint mismatch were the primary cause of this specific failure, I would expect Chrome or Safari transport impersonation to produce some meaningful change.
+The same rule applies to AI-assisted engineering. Suggestions from an AI tool, issue tracker, or documentation page can generate options quickly, but they still need to survive tests against the actual system. I want each experiment to record what changed, what stayed the same, what moved, and what remains unknown.
 
-Instead, all three target requests converged on the same result:
-
-`HTTP 200 → LOGIN_REQUIRED → 0 tracks`
-
-Meanwhile, all three positive-control requests still reached 61 usable lines.
-
-That substantially weakened the transport-fingerprint hypothesis for this case.
-
-It does not prove that fingerprinting is irrelevant to YouTube generally. There are many other differences in request, session, network, and platform context that this experiment did not isolate.
-
-But it was enough to stop treating the HTTP library itself as the most likely explanation.
-
-That is useful progress.
-
-Without a controlled experiment, it would have been easy to keep changing headers, libraries, proxy settings, or client profiles simply because each one sounded plausible.
-
-## HTTP 200 is not application success
-
-The larger lesson was about how success should be defined.
-
-For a caption pipeline, this:
-
-`response.status === 200`
-
-is much too early to declare success.
-
-There are several meaningful stages between a successful HTTP response and something a learner can actually use:
-
-`Player response`
-
-→ `playability state`
-
-→ `caption tracks exposed`
-
-→ `language / track selected`
-
-→ `timed-text response`
-
-→ `usable transcript lines`
-
-The failing target made this obvious.
-
-Its request was technically successful at the transport layer, but application-level acquisition had failed before a caption track was even available.
-
-EchoLearn already performs semantic checks above HTTP status in its transcript paths. A response is not treated as a useful transcript simply because a request completed; usable transcript data must actually contain content. The code also distinguishes several typed failure outcomes rather than reducing every failure to one generic error.
-
-The investigation suggests that this distinction should go further over time.
-
-Player state, exposed track count, selected language, timed-text status, and usable-line count are all valuable diagnostic signals.
-
-That does not mean every internal phase needs to become a user-facing error message. It means the system should preserve enough information to understand where acquisition stopped.
-
-## Why the positive control mattered
-
-The positive control was one of the simplest parts of the test, but also one of the most valuable.
-
-Suppose I had only tested the failing video.
-
-I would have seen:
-
-`LOGIN_REQUIRED`
-
-under native Python, Chrome impersonation, and Safari impersonation.
-
-But I would not know whether:
-
-- all three transports were incorrectly configured,
-- the VPS could no longer retrieve any captions,
-- the timed-text path was generally broken,
-- or the failure was specific to the target.
-
-The positive control removed much of that ambiguity.
-
-It demonstrated that the same experiment could still reach:
-
-`OK → 6 tracks → timedtext 200 → 61 usable lines`
-
-That made the negative target result interpretable.
-
-I now see positive controls as important for this kind of integration testing, especially when the external platform can return different behavior across videos and request contexts.
-
-A single failure tells you that something failed.
-
-A failure beside a healthy control tells you much more about where to look next.
-
-## Changing how I investigate third-party failures
-
-There was another process lesson in this work.
-
-At first, it is tempting to reason almost entirely from your own codebase:
-
-Which function is wrong?
-
-Which header is missing?
-
-Which provider should be retried?
-
-But YouTube caption extraction is not a problem unique to EchoLearn. Mature open-source projects, upstream documentation, issue trackers, and recent reports contain useful evidence about how the platform behaves.
-
-I started using those sources earlier to generate hypotheses.
-
-The important distinction is that external evidence is not the conclusion.
-
-The workflow I want is:
-
-`external evidence → hypothesis → controlled experiment → local evidence`
-
-For example, upstream discussion made browser-style transport impersonation worth testing.
-
-The EchoLearn experiment then showed that this hypothesis did not explain the target failure by itself.
-
-That prevented a plausible community explanation from turning into an assumed root cause.
-
-It also gives me a better rule for AI-assisted engineering work: suggestions from tools, documentation, GitHub issues, or AI are inputs to an investigation. They still need to survive testing against the real system.
-
-## Experimental work is not the same as shipped work
-
-This distinction matters for another reason.
-
-During a reliability investigation, I often build small harnesses, adapters, or diagnostic paths to answer one question.
-
-Those experiments are useful evidence, but they are not automatically production features.
-
-The native/Chrome/Safari transport matrix in this article came from an investigation harness. It should not be interpreted as “EchoLearn now runs three browser-impersonated caption clients in production.”
-
-Likewise, a locally tested provider adapter or recovery idea is not something I should describe as deployed until it has actually passed the relevant validation and deployment process.
-
-Keeping those boundaries explicit makes technical notes more trustworthy.
-
-It also avoids a common failure mode in AI-assisted development: implementation can move quickly enough that a prototype, test harness, candidate, and production path start sounding like the same thing.
-
-They are not.
+That record makes negative results useful. If a controlled change does not improve the application-level outcome, it can remove one attractive explanation from the shortlist without pretending to solve the whole problem.
 
 ## What remains unresolved
 
-The target still returned `LOGIN_REQUIRED` and exposed zero caption tracks in this experiment.
+The reliable conclusion is narrower than “HTTP 200 means the captions work.” It does not. EchoLearn needs usable transcript content, and its committed paths already validate that requirement above the transport status. Structured failure outcomes and positive controls make the next investigation more informative, but they do not remove the variability of a third-party caption service.
 
-The transport comparison narrowed the search space, but it did not determine the final cause of that Player state.
+The broader YouTube reliability problem is not presented here as solved. A specific failure still needs current, retained evidence before its cause can be named. The next experiment should isolate one variable, use a current positive control, preserve the relevant application-level signals, and keep any local or experimental implementation separate from shipped behavior.
 
-So this is not a “how I fixed YouTube captions” post.
-
-The accurate conclusion is narrower:
-
-> In this VPS experiment, changing native Python transport to Chrome- or Safari-impersonated `curl_cffi` did not change the target Player result, while the positive control stayed healthy. That substantially weakened a simple raw HTTP/TLS fingerprint explanation for this specific failure.
-
-There are still variables above the raw transport layer to investigate.
-
-That is where the next experiment needs to start.
-
-## What I took away from the investigation
-
-A few practices became much clearer from this debugging session.
-
-First, define success at the application layer, not at the first successful network response.
-
-Second, use a positive control when debugging an external integration. It turns many ambiguous failures into useful comparisons.
-
-Third, change one variable at a time when possible. A failed hypothesis is still valuable when the experiment is controlled enough to interpret it.
-
-Fourth, use upstream documentation, issue reports, open-source projects, and AI to generate hypotheses—but make the system itself provide the evidence.
-
-And finally, keep investigation code, candidate implementations, and production behavior separate when describing what has actually been built.
-
-The caption reliability problem is not fully solved yet.
-
-But one explanation is now much less likely, the failure boundary is clearer, and the next investigation can begin from evidence instead of another guess.
+That is a modest result, but it is the kind of result I trust: the success boundary is clearer, one request status is no longer carrying more meaning than it can support, and the next debugging step can begin from evidence rather than another guess.
