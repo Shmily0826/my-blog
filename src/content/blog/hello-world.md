@@ -3,7 +3,7 @@ title: '我的第一篇技术博客'
 description: '记录我从零开始搭建 Astro 博客的过程'
 pubDate: 'Mar 26 2026'
 heroImage: '../../assets/posts/blog-placeholder-1.jpg'
-draft: false
+draft: true
 lang: 'zh-CN'
 ---
 

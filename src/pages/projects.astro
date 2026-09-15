@@ -16,7 +16,7 @@ const featured = [
 		description: 'An English-learning app that turns video content into personalized vocabulary and sentence practice.',
 		why: 'Long-form video can be valuable language input, but turning it into level-appropriate material and something worth reviewing later takes significant manual effort.',
 		focus: 'I built across the React learning experience, transcript and caption retrieval pipeline, CEFR-aware AI analysis, dictionary interaction, spaced repetition, authentication, persistence, and deployment.',
-		tech: 'React · TypeScript · Firebase · Cloudflare · AI APIs', status: 'Live · Web/PWA + Android', action: 'Live app ↗', href: 'https://echo-learn.uk'
+		tech: 'React · TypeScript · Cloudflare · Vercel · AI APIs', status: 'Live · Web/PWA', action: 'Live app ↗', href: 'https://echo-learn.uk'
 	},
 	{
 		index: '03', accent: 'orange', category: 'Web / Interview preparation', name: 'CareerXP',
@@ -28,7 +28,6 @@ const featured = [
 ];
 
 const other = [
-	{ category: 'Browser extension / Information analysis', name: 'SignalTap', description: 'A Chrome/Edge browser extension exploring structured analysis and source-grounded judgment for web content.', detail: 'Content extraction · Source grounding · Analysis pipeline', status: 'MVP exploration' },
 	{ category: 'Course / Experimental project', name: 'Prompt2Video', description: 'A tutorial-style full-stack experiment that turns natural-language prompts into structured Remotion video configurations and rendered MP4 output.', detail: 'React · TypeScript · Express · Remotion · DeepSeek', status: 'Course project / Demo', href: 'https://github.com/Shmily0826/Prompt2Video', action: 'GitHub ↗' },
 	{ category: 'Team project / Flutter', name: 'SKY SCOUT', description: 'A team-built Flutter project explored through collaborative product and application development.', detail: 'Team project · Individual contribution kept intentionally unspecified here', status: 'Team project' }
 ];
@@ -46,7 +45,7 @@ const other = [
 
 			<section class="other-section" aria-labelledby="other-title"><div class="section-heading"><p class="eyebrow">More experiments</p><h2 id="other-title">Other Projects</h2><p>Smaller builds and collaborative work that shaped how I think about software.</p></div><div class="other-grid">{other.map((project) => <article class="other-project"><div><span class="other-category">{project.category}</span><h3>{project.name}</h3><p>{project.description}</p></div><div class="other-bottom"><span>{project.detail}</span><span>{project.status}</span>{project.href && <a href={project.href} target="_blank" rel="noreferrer">{project.action}</a>}</div></article>)}</div></section>
 
-			<section class="projects-cta" aria-labelledby="cta-title"><p class="eyebrow">Next layer</p><h2 id="cta-title">Want the engineering details?</h2><p>The strongest projects will be expanded into case studies covering architecture, trade-offs, debugging, validation, and what I actually built.</p><a class="cta-link" href="https://github.com/Shmily0826" target="_blank" rel="noreferrer">GitHub ↗</a></section>
+			<section class="projects-cta" aria-labelledby="cta-title"><p class="eyebrow">Implementation details</p><h2 id="cta-title">Want to see the work behind the projects?</h2><p>Public code and implementation details are available through the linked repositories and my GitHub profile.</p><a class="cta-link" href="https://github.com/Shmily0826" target="_blank" rel="noreferrer">GitHub ↗</a></section>
 		</main>
 		<Footer />
 	</body>

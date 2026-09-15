@@ -1,34 +1,37 @@
 ---
-title: 'myproject1'
-description: 'Prompt2Video(CS732)'
+title: 'Prompt2Video: From a Prompt to a Rendered Video'
+description: 'A course project exploring how structured LLM output can drive a React and Remotion video-rendering pipeline.'
 pubDate: 'May 14 2026'
+updatedDate: '2026-09-14'
 heroImage: '../../assets/posts/blog-placeholder-3.jpg'
 draft: false
-lang: 'zh-CN'
+lang: 'en'
 
 ---
 
-## Prompt2Video
+Prompt2Video was a course experiment in turning a natural-language request into a small programmatically rendered video. The useful part of the project was the boundary between free-form model output and a rendering system that needs predictable data.
 
-## 仓库链接地址
+## What I built
 
-https://github.com/Shmily0826/Prompt2Video.git
+The application takes a prompt, asks a DeepSeek model for a structured scene description, validates that output against a Zod schema, and passes the resulting data into React components rendered with Remotion.
 
-## 描述Description
+The pipeline has four main pieces:
 
-本项目构建了一套完整的自动化视频生成流水线 (Automated Video Generation Pipeline)。
+1. **Prompt-to-structure:** the model converts free-form input into a constrained JSON scene description.
+2. **Validation:** Zod checks the generated data before it reaches the renderer.
+3. **Composition:** React and Remotion turn the validated scene data into video frames.
+4. **Rendering:** the server-side renderer exports the composition as an MP4 using Remotion and FFmpeg.
 
-1. **AI 编排层**：利用 OpenAI SDK 调用 DeepSeek 大模型，将非结构化的用户 Prompt 转化为符合 Zod Schema 强校验的结构化分镜数据 (JSON)。
-2. **程序化渲染层**：引入 Remotion 框架取代传统 GUI 剪辑软件，将视频帧映射为 React 组件，实现了基于数据的视频动态组装与服务端自动导出 (FFmpeg)
+## Why the structure matters
 
-## 架构
+A language model can produce many plausible answers to the same prompt, while a renderer expects a stable shape. Treating the model output as untrusted structured input made the handoff easier to reason about and kept rendering logic separate from prompt generation.
 
+## Stack
 
+- React and TypeScript for the video composition
+- Node.js and Express for the service layer
+- DeepSeek for prompt-to-structure generation
+- Zod for generated-data validation
+- Remotion and FFmpeg for rendering and export
 
-视频渲染层：前端 (React + Remotion)
-
-后端服务层： (Node.js + Express)
-
-AI 大脑层 (DeepSeek V3 LLM)
-
-底层导出引擎 (Remotion Renderer + FFmpeg)
+This was a course project and demo rather than a production video platform. The code is available on [GitHub](https://github.com/Shmily0826/Prompt2Video).
