@@ -6,31 +6,30 @@ import { SITE_HANDLE } from '../consts';
 ---
 <!doctype html>
 <html lang="en">
-  <head><BaseHead title={'About this site — ' + SITE_HANDLE} description="A project showcase and engineering notebook covering practical software, implementation decisions, and validation." /></head>
+  <head><BaseHead title={'About — ' + SITE_HANDLE} description="Android tools, web experiences, and AI experiments by Shmily0826, with an interest in useful software and visual storytelling." /></head>
   <body class="about-page">
     <Header />
     <main id="main-content" tabindex="-1" class="container">
       <section class="page-intro" aria-labelledby="about-title">
-        <h1 id="about-title">About this site.</h1>
-        <p>Projects and engineering notes by {SITE_HANDLE}. A place for the work and the reasoning behind it.</p>
+        <h1 id="about-title">Hi, I'm {SITE_HANDLE}.</h1>
+        <p>I make Android tools, web experiences, and AI experiments.</p>
       </section>
       <section class="about-story" aria-labelledby="story-title">
-        <div class="story-copy"><h2 id="story-title">What was built,<br />and why it works that way.</h2>
-          <p>This site brings together web and Android projects, technical experiments, and notes from implementation and debugging.</p>
-          <p>The project pages explain the problem, the contribution, the important decisions, and the current limits. The notes go deeper into specific engineering questions.</p>
-          <p>Source code and live applications are linked where available. Screenshots illustrate the interface; validation claims describe only what was actually checked.</p>
+        <div class="story-copy">
+          <h2 id="story-title">What I like making.</h2>
+          <p>I'm interested in software you can use and ideas you can see. Appause explores a pause before opening a distracting app. Sky Scout was a team project about making the night sky easier to explore.</p>
+          <p>I also experiment with AI in working software, including Ripple's checkout decisions, and with turning structured output into video.</p>
+          <p>I build with AI coding tools. My part includes shaping the workflow, making design choices, reviewing behavior, and testing on a real device. The project pages explain where my work fits, especially on team projects.</p>
         </div>
-        <aside class="site-index" aria-label="Explore this site">
-          <a href="/projects"><strong>Projects</strong><span>Applications and implementation details</span></a>
-          <a href="/blog"><strong>Engineering notes</strong><span>Debugging, decisions, and lessons learned</span></a>
-          <a href="https://github.com/Shmily0826" target="_blank" rel="noreferrer"><strong>GitHub</strong><span>Public repositories by {SITE_HANDLE}</span></a>
+        <aside class="site-index" aria-label="Explore my work">
+          <a href="/projects/appause/"><strong>Appause</strong><span>A small pause before an app opens</span></a>
+          <a href="/projects"><strong>More projects</strong><span>Stargazing, AI, and earlier experiments</span></a>
+          <a href="https://github.com/Shmily0826" target="_blank" rel="noreferrer"><strong>GitHub</strong><span>Source code and public projects</span></a>
         </aside>
       </section>
-      <section class="working-section section" aria-labelledby="principles-title">
-        <div class="section-title"><h2 id="principles-title">How the work is documented</h2></div>
-        <div class="working-row"><h3>Start with the workflow.</h3><p>Appause adds a pause before a distracting app opens. EchoLearn connects video captions to study and review. The starting point is what should become easier for the person using the software.</p></div>
-        <div class="working-row"><h3>Explain the difficult parts.</h3><p>Detection, persistence, recovery, and device behavior are part of the product. The notes describe the decisions and edge cases behind the interface.</p></div>
-        <div class="working-row"><h3>Keep the evidence clear.</h3><p>AI tools are part of the development workflow. Requirements, architecture, review, debugging, and validation still need deliberate engineering decisions. Source code, local checks, and live behavior are distinct kinds of evidence.</p></div>
+      <section class="next-direction" aria-labelledby="next-title">
+        <h2 id="next-title">What I'm exploring next.</h2>
+        <div><p>AI-assisted creative work, especially video, is another direction I'm exploring. I'll share it here when there's a finished piece worth watching.</p><a class="text-link" href="/blog">Notes from building and learning</a></div>
       </section>
     </main>
     <Footer />
@@ -45,9 +44,12 @@ import { SITE_HANDLE } from '../consts';
   .site-index a:hover strong { text-decoration: underline; text-underline-offset: .24em; }
   .site-index strong { display: block; margin-bottom: 5px; font-size: .95rem; }
   .site-index span { color: var(--muted); font-size: .85rem; }
-  .working-section { border-top: 1px solid var(--line); }
-  .working-row { display: grid; grid-template-columns: 1fr 1.8fr; gap: 48px; padding-block: 20px; }
-  .working-row h3 { font-size: 1.08rem; }
-  .working-row p { color: var(--muted); max-width: 65ch; font-size: .94rem; margin: 0; }
-  @media (max-width: 700px) { .about-story { grid-template-columns: 1fr; gap: 24px; } .site-index { padding: 12px 24px; } .working-row { grid-template-columns: 1fr; gap: 12px; } }
+  .next-direction { display: grid; grid-template-columns: 1fr 1.8fr; gap: 48px; padding-block: 32px; border-top: 1px solid var(--line); }
+  .next-direction h2 { font-size: 1.45rem; }
+  .next-direction p { color: var(--muted); max-width: 65ch; }
+  @media (max-width: 700px) {
+    .about-story { grid-template-columns: 1fr; gap: 24px; }
+    .site-index { padding: 12px 24px; }
+    .next-direction { grid-template-columns: 1fr; gap: 20px; }
+  }
 </style>
