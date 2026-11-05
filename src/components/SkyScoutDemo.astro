@@ -1,0 +1,92 @@
+<section class="sky-demo" aria-labelledby="sky-demo-title" data-sky-demo data-state="idle">
+  <h2 id="sky-demo-title">Try the night sky.</h2>
+  <p>Auckland, 5 November 2026. Drag to look around, zoom in, or move the time slider to watch the sky change.</p>
+  <div class="demo-actions">
+    <button class="button" type="button" data-demo-start>Explore the sky</button>
+    <button class="button button-secondary" type="button" data-demo-stop hidden>Stop demo</button>
+    <a class="text-link" href="/demos/sky-scout/" target="_blank" rel="noreferrer">Open larger view</a>
+  </div>
+  <p class="demo-status" role="status" data-demo-status>The interactive view loads when you start it. No location or camera access is needed.</p>
+  <div class="demo-stage" data-demo-stage hidden></div>
+  <p class="demo-credit">A focused version of the Sky Scout team project. Star data: <a href="https://www.astronexus.com/projects/hyg" target="_blank" rel="noreferrer">HYG</a>; constellation data: <a href="https://github.com/Stellarium/stellarium-skycultures" target="_blank" rel="noreferrer">Stellarium</a>. <a href="/demos/sky-scout/ATTRIBUTION.txt">Credits &amp; licences</a>.</p>
+</section>
+<script>
+  const host = document.querySelector<HTMLElement>('[data-sky-demo]');
+  if (host) {
+    const start = host.querySelector<HTMLButtonElement>('[data-demo-start]')!;
+    const stop = host.querySelector<HTMLButtonElement>('[data-demo-stop]')!;
+    const status = host.querySelector<HTMLElement>('[data-demo-status]')!;
+    const stage = host.querySelector<HTMLElement>('[data-demo-stage]')!;
+    let frame: HTMLIFrameElement | null = null;
+    let timeout: number | undefined;
+    const clear = () => {
+      window.clearTimeout(timeout);
+      frame?.remove();
+      frame = null;
+      stage.hidden = true;
+      start.hidden = false;
+      stop.hidden = true;
+    };
+    start.addEventListener('click', () => {
+      clear();
+      host.dataset.state = 'loading';
+      status.textContent = 'Loading the interactive sky. The first load can take a moment.';
+      start.hidden = true;
+      stop.hidden = false;
+      stage.hidden = false;
+      frame = document.createElement('iframe');
+      frame.title = 'Interactive Sky Scout night sky: drag, zoom and adjust observation time';
+      frame.src = '/demos/sky-scout/';
+      frame.setAttribute('sandbox', 'allow-scripts allow-same-origin');
+      frame.allow = "camera 'none'; microphone 'none'; geolocation 'none'";
+      frame.referrerPolicy = 'no-referrer';
+      stage.append(frame);
+      timeout = window.setTimeout(() => {
+        clear();
+        host.dataset.state = 'error';
+        start.textContent = 'Try loading again';
+        status.textContent = 'The sky could not finish loading. Try again, or open the larger view.';
+      }, 60000);
+    });
+    stop.addEventListener('click', () => {
+      clear();
+      host.dataset.state = 'idle';
+      start.textContent = 'Explore the sky';
+      status.textContent = 'Demo stopped. Start it again to return to the preset night sky.';
+      start.focus();
+    });
+    window.addEventListener('message', (event: MessageEvent) => {
+      if (event.origin !== window.location.origin || event.source !== frame?.contentWindow) return;
+      const data = event.data;
+      if (!data || data.type !== 'sky-scout-demo-state') return;
+      if (typeof data.error === 'string' && data.error) {
+        clear();
+        host.dataset.state = 'error';
+        start.textContent = 'Try loading again';
+        status.textContent = 'The star data could not load. Try again, or open the larger view.';
+        return;
+      }
+      if (data.ready !== true) return;
+      window.clearTimeout(timeout);
+      host.dataset.state = 'ready';
+      for (const key of ['azimuth', 'pitch', 'zoom', 'minute'] as const) {
+        if (typeof data[key] === 'number' && Number.isFinite(data[key])) host.dataset[key] = String(data[key]);
+      }
+      if (status.textContent !== 'Ready. Interact inside the sky window; scroll outside it to continue reading.') {
+        status.textContent = 'Ready. Interact inside the sky window; scroll outside it to continue reading.';
+      }
+    });
+  }
+</script>
+<style>
+  .sky-demo { margin-block: 36px 48px; padding-top: 32px; border-top: 1px solid var(--line); }
+  h2 { font-size: 1.65rem; margin-bottom: 18px; }
+  .sky-demo > p { color: var(--muted); max-width: 68ch; }
+  .demo-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 24px; margin-block: 24px 12px; }
+  .demo-actions [hidden], .demo-stage[hidden] { display: none; }
+  .demo-status { font-size: .88rem; min-height: 1.65em; }
+  .demo-stage { overflow: hidden; border: 1px solid var(--line); border-radius: 14px; background: var(--paper); margin-block: 20px; }
+  .demo-stage :global(iframe) { display: block; width: 100%; height: 580px; border: 0; }
+  .demo-credit { font-size: .76rem; margin-top: 18px; }
+  @media (max-width: 700px) { .demo-stage :global(iframe) { height: 540px; } }
+</style>

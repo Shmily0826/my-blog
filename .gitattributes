@@ -1,0 +1,5 @@
+# Reviewed source lives in tools/sky-scout-demo; these are generated runtime assets.
+public/demos/sky-scout/main.dart.js -text -diff linguist-generated=true
+public/demos/sky-scout/flutter_bootstrap.js -text -diff linguist-generated=true
+public/demos/sky-scout/canvaskit/** -text -diff linguist-generated=true
+public/demos/sky-scout/assets/** -text -diff linguist-generated=true

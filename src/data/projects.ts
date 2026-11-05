@@ -23,7 +23,7 @@ export const featuredProjects = [
 		contribution: 'Within the team, I worked on Web layouts and navigation, local API compatibility, Android acceptance checks, and related fixes. Sky rendering, observation recommendations, and sensor features were shared team work.',
 		challenge: 'Web planning and mobile exploration need different layouts while retaining the selected location, target, and observation time.',
 		decision: 'Adapt navigation and controls to the screen, keep sky calculations and the bundled catalog on the client, and use the Express API for weather and encyclopedia summaries.',
-		boundary: 'Course prototype. The image is an earlier local Web capture. Device permissions and sensor accuracy affect mobile use; weather and encyclopedia data need a connection. The repository is not publicly accessible.',
+		boundary: 'Course prototype. The embedded demo uses a fixed Auckland night and runs in your browser. Screenshots show an earlier Web version. The full application\'s mobile features depend on device permissions and sensor accuracy; weather and encyclopedia data need a connection. The repository is not publicly accessible.',
 		tech: ['Flutter', 'Dart', 'Node.js', 'Express'],
 		links: [],
 	},

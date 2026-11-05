@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import ProjectPreview from './ProjectPreview.astro';
+import SkyScoutDemo from './SkyScoutDemo.astro';
 import skyPlanning from '../assets/projects/sky-scout-planning.jpg';
 import type { featuredProjects } from '../data/projects';
 interface Props { project: (typeof featuredProjects)[number]; }
@@ -12,9 +13,11 @@ const { project } = Astro.props;
     <h1>{project.name}</h1>
     <p class="project-description">{project.description}</p>
     <p class="project-meta">{project.category}<span>{project.status}</span></p>
+    {project.id === 'sky-scout' && <div class="project-links"><a class="button" href="#sky-demo-title">Try interactive demo</a></div>}
     {project.links.length > 0 && <div class="project-links">{project.links.map((link, index) => <a class:list={['button', { 'button-secondary': index > 0 }]} href={link.href} target="_blank" rel="noreferrer">{link.label}</a>)}</div>}
   </header>
   <div class="project-visual"><ProjectPreview id={project.id} eager /></div>
+  {project.id === 'sky-scout' && <SkyScoutDemo />}
   <section class="experience" aria-labelledby="experience-title">
     <div>
       <h2 id="experience-title">The experience</h2>

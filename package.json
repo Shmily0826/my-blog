@@ -10,7 +10,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "check:rss": "node scripts/check-rss-ordering.mjs"
+    "check:rss": "node scripts/check-rss-ordering.mjs",
+    "check:sky-demo": "node scripts/check-sky-demo.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^5.0.2",

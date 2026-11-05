@@ -1,0 +1,22 @@
+Sky Scout — interactive portfolio adaptation
+
+Original application: Sky Scout, a team course project.
+Team repository: https://github.com/UOA-CS734-S2-2026/project-implementation-one-to-be-found
+Source snapshot: 4fdf1ac943992b8fd5934145b35d734212906123
+Portfolio adaptation by Shmily0826 with AI-assisted development.
+The original team sky rendering and astronomy logic are reused. This preset demo omits location permissions, camera, weather and external encyclopedia services.
+
+Star catalog: HYG Database v4.2, Astronomy Nexus.
+https://www.astronexus.com/projects/hyg
+Licence: Creative Commons Attribution-ShareAlike 4.0.
+https://creativecommons.org/licenses/by-sa/4.0/
+The application bundles a converted subset with original catalog identifiers and coordinates.
+
+Western constellation data: Stellarium skycultures, Stellarium team.
+https://github.com/Stellarium/stellarium-skycultures/tree/master/western
+Upstream declares its text and data CC BY-SA:
+https://github.com/Stellarium/stellarium-skycultures/blob/master/western/description.md
+The original project's bundled constellation line data is reused without modification. No constellation illustrations are used.
+
+Flutter and dependencies: see assets/NOTICES.
+Bundled Roboto font: see ROBOTO-LICENSE.txt.

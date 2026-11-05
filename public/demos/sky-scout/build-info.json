@@ -1,0 +1,26 @@
+{
+  "sourceCommit": "4fdf1ac943992b8fd5934145b35d734212906123",
+  "adaptation": "tools/sky-scout-demo",
+  "preset": "Auckland, 2026-11-05 22:00 NZDT",
+  "files": [
+    "flutter_bootstrap.js",
+    "index.html",
+    "main.dart.js",
+    "version.json",
+    "assets/AssetManifest.bin",
+    "assets/AssetManifest.bin.json",
+    "assets/FontManifest.json",
+    "assets/NOTICES",
+    "canvaskit/canvaskit.js",
+    "canvaskit/canvaskit.wasm",
+    "assets/fonts/MaterialIcons-Regular.otf",
+    "assets/shaders/ink_sparkle.frag",
+    "assets/shaders/stretch_effect.frag",
+    "assets/packages/flutter_map/lib/assets/flutter_map_logo.png",
+    "assets/packages/cupertino_icons/assets/CupertinoIcons.ttf",
+    "assets/fonts/fallback/Roboto-Regular.ttf",
+    "assets/assets/data/constellation_western.json",
+    "assets/assets/data/stars.json",
+    "assets/assets/fonts/roboto-regular.ttf"
+  ]
+}

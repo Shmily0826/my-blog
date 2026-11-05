@@ -43,3 +43,5 @@ Project copy, status, technologies, and links live in `src/data/projects.ts`. Ap
 Keep team contributions distinct from solo work, identify AI-assisted development, and separate screenshots or diagrams from evidence of live behavior. Image provenance and content evidence are recorded in `src/assets/projects/SOURCES.md`. Only add source or demo links that visitors can access.
 
 Before release, run `npm run build` and `npm run check:rss`, then inspect the homepage and project sections at desktop and mobile sizes. Review pending content explicitly before publishing; draft posts remain excluded.
+
+The Sky Scout detail page also offers an on-demand interactive night-sky demo. Its static Flutter build is self-hosted under `public/demos/sky-scout`; it uses a fixed public location and no credentials or provider APIs. Run `npm run check:sky-demo` before release. Rebuild instructions, the pinned team-source revision, and the scope of the adaptation are in `tools/sky-scout-demo/README.md`.
