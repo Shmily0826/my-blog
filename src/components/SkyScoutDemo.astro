@@ -35,6 +35,11 @@ import skyPreview from '../assets/projects/sky-scout-locate.jpg';
     let timeout: number | undefined;
     const clear = () => {
       window.clearTimeout(timeout);
+      if (frame) {
+        poster.hidden = false;
+        start.hidden = false;
+        start.focus({ preventScroll: true });
+      }
       frame?.remove();
       frame = null;
       stage.hidden = true;
@@ -50,6 +55,7 @@ import skyPreview from '../assets/projects/sky-scout-locate.jpg';
       stop.hidden = false;
       stage.hidden = false;
       stop.textContent = 'Cancel loading';
+      host.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
       frame = document.createElement('iframe');
       frame.title = 'Interactive Sky Scout night sky: drag, zoom and adjust observation time';
       frame.src = '/demos/sky-scout/';
@@ -101,7 +107,7 @@ import skyPreview from '../assets/projects/sky-scout-locate.jpg';
   }
 </script>
 <style>
-  .sky-demo { max-width: 940px; margin-bottom: 48px; }
+  .sky-demo { max-width: 940px; margin-bottom: 48px; scroll-margin-top: 8px; }
   .demo-heading { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px 24px; margin-bottom: 12px; }
   h2 { font-size: 1.2rem; scroll-margin-top: 8px; }
   .demo-heading p { color: var(--muted); font-size: .8rem; margin: 6px 0 0; }
