@@ -77,6 +77,7 @@ import skyPreview from '../assets/projects/sky-scout-locate.jpg';
       start.textContent = 'Explore the sky';
       status.textContent = 'Demo stopped. Start it again to return to the preset night sky.';
       start.focus({ preventScroll: true });
+      host.scrollIntoView({ block: 'start', behavior: 'instant' });
     });
     window.addEventListener('message', (event: MessageEvent) => {
       if (event.origin !== window.location.origin || event.source !== frame?.contentWindow) return;

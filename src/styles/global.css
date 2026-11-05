@@ -78,5 +78,10 @@ hr { border: 0; border-top: 1px solid var(--line); }
   .page-intro > p { font-size: 1rem; }
   .footer-inner { align-items: flex-start; flex-direction: column; gap: 6px; }
 }
-@media (max-width: 360px) { .container { width: calc(100% - 32px); } .internal-links { gap: 12px; } }
+@media (max-width: 360px) {
+  .container { width: calc(100% - 32px); }
+  .site-nav { gap: 8px; }
+  .wordmark { font-size: .9rem; }
+  .internal-links { gap: 10px; }
+}
 
