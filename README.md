@@ -38,7 +38,7 @@ The configured `site` URL in `astro.config.mjs` is used as the base for canonica
 
 ## Project content maintenance
 
-Project copy, status, technologies, and links live in `src/data/projects.ts`. Appause is the homepage spotlight; Sky Scout and Ripple Cart Rescue have direct homepage links and full sections on `/projects`. Prompt2Video remains an earlier course demo, and EchoLearn is labelled as not actively maintained. Add future AI-video work when a finished example is available.
+Project copy, status, technologies, and links live in `src/data/projects.ts`. Appause is the homepage spotlight, with Sky Scout and Ripple Cart Rescue also shown visually. `/projects` is the browseable index; `/projects/[id]/` holds the experience, contribution, decisions, and current limits for each project. Existing `/projects#id` links still land on the corresponding index entry. Prompt2Video and EchoLearn sit under earlier experiments; EchoLearn is labelled as not actively maintained. Add future AI-video work when a finished example is available.
 
 Keep team contributions distinct from solo work, identify AI-assisted development, and separate screenshots or diagrams from evidence of live behavior. Image provenance and content evidence are recorded in `src/assets/projects/SOURCES.md`. Only add source or demo links that visitors can access.
 
