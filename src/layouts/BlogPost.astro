@@ -5,285 +5,28 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
-
 type Props = CollectionEntry<'blog'>['data'];
-
 const { title, description, pubDate, updatedDate, heroImage, lang } = Astro.props;
+const showHero = heroImage && !heroImage.src.includes('blog-placeholder');
 ---
-
+<!doctype html>
 <html lang={lang}>
-	<head>
-		<BaseHead title={title} description={description} />
-		<style is:global>
-			@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap');
-			:root {
-				--ink: #202825;
-				--muted: #66716b;
-				--paper: #f4f5ef;
-				--paper-deep: #e8ebe3;
-				--lime: #b9d832;
-				--blue: #90cfe0;
-				--orange: #f5a66d;
-			}
-			body.blog-page {
-				min-width: 0;
-				background: var(--paper);
-				color: var(--ink);
-				font-family: 'Manrope', sans-serif;
-				font-size: 16px;
-				line-height: 1.6;
-			}
-			body.blog-page .article-main,
-			body.blog-page .article-main *,
-			body.blog-page .article-main *::before,
-			body.blog-page .article-main *::after {
-				box-sizing: border-box;
-			}
-			body.blog-page .article-main {
-				width: 100%;
-				max-width: none;
-				margin: 0;
-				padding: 0;
-			}
-			body.blog-page h1,
-			body.blog-page h2,
-			body.blog-page h3,
-			body.blog-page h4,
-			body.blog-page h5,
-			body.blog-page h6 {
-				color: var(--ink) !important;
-				font-family: 'Manrope', sans-serif;
-				text-shadow: none;
-			}
-			body.blog-page a {
-				color: inherit;
-			}
-			body.blog-page time {
-				color: var(--muted) !important;
-				font-size: inherit;
-			}
-			.article-hero {
-				width: min(100%, 1220px);
-				margin: 0 auto;
-				padding: 2rem 2rem 0;
-			}
-			.article-hero img {
-				display: block;
-				width: 100%;
-				max-width: 100%;
-				max-height: 520px;
-				object-fit: cover;
-				border-radius: 0;
-			}
-			.article-content-shell {
-				width: min(100%, 800px);
-				margin: 0 auto;
-				padding: 4.5rem 2rem 6rem;
-			}
-			.article-header {
-				padding-bottom: 2rem;
-				border-bottom: 1px solid #d9ded2;
-			}
-			.eyebrow {
-				margin: 0 0 1rem;
-				color: var(--muted);
-				font-family: 'DM Mono', monospace;
-				font-size: .72rem;
-				letter-spacing: .08em;
-				text-transform: uppercase;
-			}
-			.eyebrow span {
-				color: var(--lime);
-			}
-			.article-meta {
-				display: flex;
-				flex-wrap: wrap;
-				gap: .75rem;
-				margin: 0 0 1rem;
-				color: var(--muted);
-				font-family: 'DM Mono', monospace;
-				font-size: .72rem;
-				text-transform: uppercase;
-			}
-			.article-meta time {
-				color: inherit;
-			}
-			.article-header h1 {
-				margin: 0 0 1rem;
-				font-size: clamp(2.8rem, 6vw, 5.4rem);
-				font-weight: 800;
-				letter-spacing: -.085em;
-				line-height: .98;
-			}
-			.article-description {
-				max-width: 620px;
-				margin: 0;
-				color: var(--muted);
-				font-size: 1.05rem;
-			}
-			.last-updated-on {
-				margin-top: .5rem;
-				font-style: normal;
-			}
-			.article-body {
-				min-width: 0;
-				padding-top: 2.5rem;
-				color: #3e4a43;
-			}
-			.article-body h2,
-			.article-body h3,
-			.article-body h4 {
-				margin-top: 2.5rem;
-				margin-bottom: .75rem;
-				line-height: 1.15;
-			}
-			.article-body h2 {
-				font-size: clamp(1.7rem, 4vw, 2.6rem);
-			}
-			.article-body h3 {
-				font-size: 1.45rem;
-			}
-			.article-body p,
-			.article-body li {
-				font-size: 1.02rem;
-		}
-			.article-body a {
-				color: #4e7f7c;
-				text-decoration-color: var(--lime);
-				text-underline-offset: .2rem;
-				overflow-wrap: anywhere;
-			}
-			.article-body img {
-				display: block;
-				max-width: 100%;
-				height: auto;
-			}
-			.article-body table {
-				display: block;
-				width: 100%;
-				max-width: 100%;
-				overflow-x: auto;
-			}
-			.article-body .code-wrapper {
-				position: relative;
-				max-width: 100%;
-				margin: 2rem 0;
-				overflow-x: auto;
-				border-radius: 12px;
-				box-shadow: 0 10px 30px rgba(32, 40, 37, .1);
-			}
-			.article-body pre {
-				max-width: 100%;
-				margin: 1.5rem 0;
-				padding: 1.25rem;
-				overflow-x: auto;
-				border: 1px solid rgba(32, 40, 37, .1);
-				border-radius: 12px;
-				background: #1e1e2e !important;
-				white-space: pre;
-			}
-			.article-body .code-wrapper pre {
-				width: 100%;
-				margin: 0;
-			}
-			.article-body pre > code {
-				padding: 0;
-				background: transparent;
-				font-family: 'Cascadia Code', monospace;
-				font-size: .9rem;
-				line-height: 1.6;
-			}
-			.copy-button {
-				position: absolute;
-				top: 12px;
-				right: 12px;
-				z-index: 2;
-				padding: 5px 12px;
-				color: rgba(255, 255, 255, .8);
-				background: rgba(255, 255, 255, .1);
-				border: 1px solid rgba(255, 255, 255, .2);
-				border-radius: 6px;
-				font-family: 'DM Mono', monospace;
-				font-size: .72rem;
-				cursor: pointer;
-				opacity: 0;
-				transition: opacity .2s ease, background .2s ease;
-			}
-			.code-wrapper:hover .copy-button,
-			.copy-button:focus-visible {
-				opacity: 1;
-			}
-			.copy-button:hover,
-			.copy-button.active {
-				background: #4f9e68;
-				border-color: #4f9e68;
-				color: #fff;
-			}
-			.article-body blockquote {
-				margin: 2rem 0;
-				padding: .25rem 0 .25rem 1.25rem;
-				border-left: 3px solid var(--lime);
-				color: var(--muted);
-			}
-			body.blog-page a:focus-visible,
-			body.blog-page button:focus-visible {
-				outline: 3px solid var(--orange);
-				outline-offset: 4px;
-			}
-			@media (max-width: 700px) {
-				.article-hero,
-				.article-content-shell {
-					padding-right: 1.2rem;
-					padding-left: 1.2rem;
-				}
-				.article-hero {
-					padding-top: 1.2rem;
-				}
-				.article-content-shell {
-					padding-top: 3.5rem;
-					padding-bottom: 4.5rem;
-				}
-				.article-header h1 {
-					font-size: clamp(2.6rem, 13vw, 4.3rem);
-				}
-				.article-body p,
-				.article-body li {
-					font-size: 1rem;
-				}
-			}
-		</style>
-	</head>
-
-	<body class="blog-page blog-article-page">
-		<Header />
-		<main class="article-main">
-			<article>
-				{heroImage && (
-					<div class="article-hero">
-						<Image width={1020} height={510} src={heroImage} alt="" />
-					</div>
-				)}
-				<div class="article-content-shell">
-					<header class="article-header">
-						<p class="eyebrow">Published note <span>/</span> Developer journal</p>
-						<div class="article-meta">
-							<FormattedDate date={pubDate} />
-							{updatedDate && (
-								<span class="last-updated-on">
-									Updated <FormattedDate date={updatedDate} />
-								</span>
-							)}
-						</div>
-						<h1>{title}</h1>
-						{description && <p class="article-description">{description}</p>}
-					</header>
-					<div class="article-body">
-						<slot />
-					</div>
-				</div>
-			</article>
-		</main>
-		<Footer />
+  <head><BaseHead title={title} description={description} /></head>
+  <body class="blog-page blog-article-page">
+    <Header />
+    <main id="main-content" tabindex="-1" class="article-main container">
+      <article>
+        <a class="text-link back-link" href="/blog">Back to all notes</a>
+        <header class="article-header">
+          <div class="article-meta"><FormattedDate date={pubDate} />{updatedDate && <span>Updated <FormattedDate date={updatedDate} /></span>}</div>
+          <h1>{title}</h1><p class="article-description">{description}</p>
+        </header>
+        {showHero && <Image class="article-hero" width={1020} height={510} src={heroImage} alt="" />}
+        <div class="article-body"><slot /></div>
+        <nav class="article-next" aria-label="Continue reading"><a class="text-link" href="/projects">Explore projects</a><a class="text-link" href="/blog">More notes</a></nav>
+      </article>
+    </main>
+    <Footer />
 		<script>
 			function setupCopyButtons() {
 				document.querySelectorAll('pre').forEach((block) => {
@@ -324,5 +67,32 @@ const { title, description, pubDate, updatedDate, heroImage, lang } = Astro.prop
 			setupCopyButtons();
 			document.addEventListener('astro:after-swap', setupCopyButtons);
 		</script>
-	</body>
+
+  </body>
 </html>
+<style is:global>
+  .article-main { max-width: 780px; padding-block: 30px 24px; }
+  .back-link { margin-bottom: 24px; font-size: .85rem; }
+  .article-meta { display: flex; flex-wrap: wrap; gap: 12px 24px; color: var(--muted); font-size: .8rem; margin-bottom: 18px; }
+  .article-header h1 { font-size: clamp(2.1rem, 4.5vw, 3.25rem); max-width: 25ch; }
+  .article-description { margin: 24px 0 0; color: var(--muted); font-size: 1.08rem; max-width: 64ch; }
+  .article-header { padding-bottom: 32px; border-bottom: 1px solid var(--line); }
+  .article-hero { width: 100%; border-radius: 12px; margin-top: 32px; }
+  .article-body { padding-top: 32px; font-size: 1rem; color: var(--ink); }
+  .article-body p, .article-body li { line-height: 1.85; }
+  .article-body p { margin-bottom: 20px; }
+  .article-body h2 { font-size: 1.65rem; margin: 40px 0 16px; }
+  .article-body h2:first-child { margin-top: 0; }
+  .article-body h3 { font-size: 1.25rem; margin: 32px 0 12px; }
+  .article-body ul, .article-body ol { padding-left: 24px; }
+  .article-body li { margin-bottom: 8px; }
+  .article-body img { border-radius: 10px; }
+  .article-body pre code { font-size: .85rem; line-height: 1.7; }
+  .article-body table { display: block; overflow-x: auto; }
+  .code-wrapper { position: relative; }
+  .code-wrapper pre { padding-top: 68px; }
+  .copy-button { position: absolute; top: 12px; right: 12px; padding: 6px 12px; min-height: 44px; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 5px; font-size: .8rem; }
+  .copy-button:hover, .copy-button.active { background: var(--accent-soft); }
+  .article-next { display: flex; gap: 24px; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--line); }
+  @media (max-width: 700px) { .article-main { padding-top: 20px; } .article-header h1 { font-size: 2.1rem; } .article-description { font-size: 1rem; } }
+</style>

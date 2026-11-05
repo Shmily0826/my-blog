@@ -1,0 +1,51 @@
+export const featuredProjects = [
+	{
+		id: 'appause', name: 'Appause', category: 'Android · Digital wellbeing',
+		description: 'A moment to reconsider before a distracting app opens.',
+		overview: 'Choose distracting apps, group them, and add a configurable pause before continuing. Built with local-first storage and an Android-native interface.',
+		contribution: 'Foreground-app detection, pause overlays, local persistence, usage insights, OEM reliability handling, and on-device entitlement verification.',
+		challenge: 'Foreground signals and Android lifecycle behavior can interrupt the pause flow or trigger it at the wrong time.',
+		decision: 'Keep detection and pause policies separate from the interface, with local data storage and explicit handling for platform edge cases.',
+		boundary: 'Active development. Background behavior depends on device permissions and OEM settings.',
+		tech: ['Kotlin', 'Jetpack Compose', 'Room', 'DataStore'],
+		links: [{ label: 'View source', href: 'https://github.com/Shmily0826/Appause' }],
+	},
+	{
+		id: 'sky-scout', name: 'Sky Scout', category: 'Web & Android · Team course project',
+		description: 'Explore the night sky without needing an astronomy background.',
+		overview: 'A Flutter application for browsing stars and planets, choosing an observation location and time, and checking weather. Mobile exploration also uses orientation sensors and the camera.',
+		contribution: 'Within the team, I worked on Web layouts and navigation, local API compatibility, Android acceptance checks, and related fixes. Sky rendering, observation recommendations, and sensor features were shared team work.',
+		challenge: 'Web planning and mobile exploration need different layouts while retaining the selected location, target, and observation time.',
+		decision: 'Adapt navigation and controls to the screen, keep sky calculations and the bundled catalog on the client, and use the Express API for weather and encyclopedia summaries.',
+		boundary: 'Course prototype. The image is an earlier local Web capture. Device permissions and sensor accuracy affect mobile use; weather and encyclopedia data need a connection. The repository is not publicly accessible.',
+		tech: ['Flutter', 'Dart', 'Node.js', 'Express'],
+		links: [],
+	},
+	{
+		id: 'ripple-cart-rescue', name: 'Ripple Cart Rescue', category: 'AI agent · Solo hackathon project',
+		description: 'Decide whether a checkout needs a reminder, and when to leave it alone.',
+		overview: 'Shopify checkout signals feed a Gemini decision workflow. Policy checks constrain the action before Bloomreach activation, and recorded order outcomes inform the next decision.',
+		contribution: 'Built solo with AI-assisted development: webhook ingestion, Shopify eligibility checks, Gemini integration, deterministic guardrails, Bloomreach activation, outcome history, and validation.',
+		challenge: 'A plausible model response or an accepted platform event does not establish a safe message, inbox delivery, or a recovered purchase.',
+		decision: 'Validate structured decisions and generated copy, keep contact rules outside the model, and preserve an explicit do-nothing path. Record outcomes separately from intervention receipts.',
+		boundary: 'Hackathon prototype. Real integrations were verified in controlled stages with a capture-and-replay handoff. Inbox delivery, purchase conversion, and one uninterrupted fully automatic end-to-end run were not verified. Source remains private.',
+		tech: ['TypeScript', 'Node.js', 'Shopify', 'Gemini', 'Bloomreach'],
+		links: [],
+	},
+	{
+		id: 'echolearn', name: 'EchoLearn', category: 'Web & Android · Language-learning experiment',
+		status: 'Experiment · Not actively maintained',
+		description: 'An experiment in learning English through video captions and review.',
+		overview: 'An English-learning workflow with interactive transcripts, word lookup, saved vocabulary and sentences, and spaced repetition. Also supports local audio and subtitle import.',
+		contribution: 'The React learning experience, caption retrieval, CEFR-aware analysis, dictionary interaction, review, authentication, persistence, and deployment.',
+		challenge: 'A successful network response can still contain an empty or unusable transcript.',
+		decision: 'Validate usable caption text before opening the learning workflow, preserve meaningful failure states, and offer local media import as a separate path.',
+		boundary: 'Not actively maintained. These screenshots document the earlier interface. External caption availability varies; guest study data stays on the device, with optional Firebase sync.',
+		tech: ['React', 'TypeScript', 'Firebase', 'Capacitor'],
+		links: [{ label: 'View source', href: 'https://github.com/Shmily0826/EchoLearn' }],
+	},
+] as const;
+
+export const otherProjects = [
+	{ name: 'Prompt2Video', category: 'Course project · Demo', description: 'A prompt-to-video experiment: validate structured LLM output, turn it into React and Remotion compositions, and render an MP4.', tech: 'React · TypeScript · Express · Remotion · DeepSeek', href: 'https://github.com/Shmily0826/Prompt2Video' },
+];

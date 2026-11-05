@@ -1,241 +1,82 @@
-/*
-  The CSS in this style tag is based off of Bear Blog's default CSS.
-  https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
-  License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
- */
-
+@font-face { font-family: 'Manrope'; src: url('/fonts/manrope-latin.woff2') format('woff2'); font-style: normal; font-weight: 400 800; font-display: swap; }
+@font-face { font-family: 'Atkinson'; src: url('/fonts/atkinson-regular.woff') format('woff'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Atkinson'; src: url('/fonts/atkinson-bold.woff') format('woff'); font-weight: 700; font-display: swap; }
 :root {
-	--accent: #45d5dc;
-	--accent-dark: #ffffff;
-	--black: 15, 18, 25;
-	--gray: 96, 115, 159;
-	--gray-light: 229, 233, 240;
-	--gray-dark: 34, 41, 57;
-	--gray-gradient: rgba(var(--gray-light), 50%), #fff;
-	--box-shadow:
-		0 2px 6px rgba(var(--gray), 25%), 0 8px 24px rgba(var(--gray), 33%),
-		0 16px 32px rgba(var(--gray), 33%);
+  color-scheme: dark;
+  --paper: #111520; --paper-deep: #191e2b; --surface: #1c2231;
+  --ink: #f3f0f8; --muted: #b5b7ca; --accent: #d1bce9;
+  --accent-soft: #2a2537; --line: #303546;
+  --accent-hover: #e4d5f4; --on-accent: #21172b;
+  font-family: 'Manrope', 'Atkinson', sans-serif; font-synthesis: none;
 }
-@font-face {
-	font-family: "Atkinson";
-	src: url("/fonts/atkinson-regular.woff") format("woff");
-	font-weight: 400;
-	font-style: normal;
-	font-display: swap;
+* { box-sizing: border-box; }
+html { scroll-padding-top: 90px; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-size: 16px; line-height: 1.65; overflow-wrap: break-word; }
+body, input, button, textarea { font-family: 'Manrope', 'Atkinson', sans-serif; }
+main { min-width: 0; }
+h1, h2, h3, h4, h5, h6 { margin: 0; color: var(--ink); font-weight: 700; letter-spacing: -.035em; line-height: 1.15; text-wrap: balance; }
+h1 { font-size: clamp(2.6rem, 5vw, 4.4rem); }
+h2 { font-size: clamp(1.65rem, 3vw, 2.3rem); }
+h3 { font-size: 1.4rem; }
+p { margin: 0 0 1rem; }
+a { color: var(--accent); text-underline-offset: .24em; text-decoration-thickness: 1px; }
+a:hover { text-decoration-color: currentColor; }
+a, button { -webkit-tap-highlight-color: transparent; }
+a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px solid var(--accent); outline-offset: 5px; border-radius: 3px; }
+::selection { color: #fff; background: #614e78; }
+html { scrollbar-color: #596078 var(--paper); }
+img { max-width: 100%; height: auto; display: block; }
+button, input, textarea { font-size: inherit; }
+button { cursor: pointer; }
+.container { width: min(1120px, calc(100% - 80px)); margin-inline: auto; }
+.section { padding-block: 64px; }
+.section-title { margin-bottom: 28px; }
+.section-title > p { color: var(--muted); margin: 12px 0 0; max-width: 62ch; }
+.page-intro { padding-block: 56px 40px; }
+.page-intro > p { max-width: 62ch; color: var(--muted); margin: 18px 0 0; font-size: 1.05rem; }
+.button { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 11px 21px; border: 1px solid transparent; border-radius: 7px; background: var(--accent); color: var(--on-accent); font-size: .9rem; font-weight: 650; text-decoration: none; transition: background .18s ease, transform .18s ease; }
+.button:hover { background: var(--accent-hover); transform: translateY(-2px); }
+.button-secondary { color: var(--ink); background: transparent; border-color: var(--line); }
+.button-secondary:hover { background: var(--accent-soft); }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.text-link { display: inline-flex; align-items: center; min-height: 44px; font-size: .9rem; font-weight: 650; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px 16px; padding: 0; margin: 16px 0; list-style: none; color: var(--muted); font-size: .79rem; }
+.sr-only { border: 0; padding: 0; margin: -1px; position: absolute; height: 1px; width: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.skip-link { position: fixed; top: 12px; left: 12px; z-index: 20; padding: 10px 16px; background: var(--accent); color: var(--on-accent); border-radius: 6px; transform: translateY(-180%); }
+.skip-link:focus { transform: translateY(0); }
+.header-wrapper { position: sticky; top: 0; z-index: 10; background: var(--paper); border-bottom: 1px solid var(--line); }
+.site-header { height: 76px; display: flex; align-items: center; }
+.site-nav { display: flex; align-items: center; width: 100%; gap: 32px; }
+.wordmark { margin-right: auto; font-size: 1rem; font-weight: 800; color: var(--ink); text-decoration: none; letter-spacing: -.025em; }
+.wordmark span { color: var(--accent); }
+.internal-links { display: flex; align-items: center; gap: 26px; }
+.internal-links a { display: inline-flex; align-items: center; min-height: 44px; color: var(--muted); text-decoration: none; font-size: .85rem; }
+.internal-links a:hover, .internal-links a.active { color: var(--ink); }
+.internal-links a.active { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 8px; }
+.github-link { padding-left: 24px; border-left: 1px solid var(--line); font-size: .85rem; text-decoration: none; color: var(--ink); }
+.site-footer { margin-top: 56px; border-top: 1px solid var(--line); }
+.footer-inner { padding-block: 26px; display: flex; justify-content: space-between; align-items: center; gap: 20px; font-size: .8rem; color: var(--muted); }
+.footer-links { display: flex; gap: 22px; }
+.footer-links a { display: inline-flex; align-items: center; min-height: 44px; color: inherit; }
+code { padding: .15em .35em; background: var(--paper-deep); border-radius: 4px; font-family: Consolas, monospace; font-size: .9em; }
+pre { margin: 24px 0; padding: 24px; border-radius: 10px; overflow-x: auto; background: var(--paper-deep); }
+pre code { padding: 0; background: none; color: inherit; }
+blockquote { margin: 24px 0; padding-left: 20px; border-left: 1px solid var(--accent); color: var(--muted); }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--line); }
+hr { border: 0; border-top: 1px solid var(--line); }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+@media (max-width: 700px) {
+  .container { width: calc(100% - 40px); }
+  .site-header { height: 66px; }
+  .site-nav { gap: 16px; }
+  .internal-links { gap: 16px; }
+  .internal-links a { font-size: .78rem; }
+  .github-link { display: none; }
+  .section { padding-block: 40px; }
+  .page-intro { padding-block: 36px 30px; }
+  .page-intro > p { font-size: 1rem; }
+  .footer-inner { align-items: flex-start; flex-direction: column; gap: 6px; }
 }
-@font-face {
-	font-family: "Atkinson";
-	src: url("/fonts/atkinson-bold.woff") format("woff");
-	font-weight: 700;
-	font-style: normal;
-	font-display: swap;
-}
-body {
-	font-family: "Atkinson", sans-serif;
-	margin: 0;
-	padding: 0;
-	text-align: left;
-	word-wrap: break-word;
-	overflow-wrap: break-word;
-	color: rgb(var(--gray-light));
-	font-size: 20px;
-	line-height: 1.7;
-}
-
-body.blog-page {
-	background-image: url('../assets/ui/blog-bg.png');
-	background-size: cover;
-	background-position: center;
-	background-attachment: fixed;
-	background-repeat: no-repeat;
-	min-height: 100vh;
-}
-main {
-	width: 1200px;
-	max-width: calc(100% - 2em);
-	margin: -40px auto 0;
-	padding: 3em 2em;
-
-	/* 新加的代码：给内容区加一层淡淡的黑色半透明背景 */
-        /* 圆角 */
-}
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	margin: 0 0 0.5rem 0;
-    color: #64cec5f8 !important; /* 强制改为纯白 */
-    line-height: 1.2;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.3); /* 增加阴影，让文字在图片背景上更跳脱 */
-}
-.date, time{
-	color: rgba(255, 255, 255, 0.833) !important; /* 浅灰色 */
-    font-size: 0.9em;
-}
-/* 针对正文里的链接颜色，建议调亮一点 */
-a {
-    color: #4fc3f7; /* 亮蓝色 */
-}
-h1 {
-	font-size: 3.052em;
-	color: #ffffff;
-}
-h2 {
-	font-size: 2.441em;
-}
-h3 {
-	font-size: 1.953em;
-}
-h4 {
-	font-size: 1.563em;
-}
-h5 {
-	font-size: 1.25em;
-}
-strong,
-b {
-	font-weight: 700;
-}
-a {
-	color: var(--accent);
-}
-a:hover {
-	color: var(--accent);
-}
-p {
-	margin-bottom: 1em;
-}
-.prose p {
-	margin-bottom: 2em;
-}
-textarea {
-	width: 100%;
-	font-size: 16px;
-}
-input {
-	font-size: 16px;
-}
-table {
-	width: 100%;
-}
-img {
-	max-width: 100%;
-	height: auto;
-	border-radius: 8px;
-}
-code {
-	padding: 2px 6px;
-	background-color: rgba(var(--gray-light), 0.5);
-	border-radius: 8px; /* 正文中的小代码*/
-	font-family: 'Cascadia Code', monospace; /* 推荐用这类字体 */
-	font-size: 1em;
-}
-/* 2. 代码块容器（外壳）- 关键：负责按钮定位 */
-.code-wrapper {
-	position: relative;
-	margin: 2rem 0;
-	border-radius: 12px;
-
-	overflow-x: auto;
-	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-}
-pre {
-	padding: 2rem;      /* 保持呼吸感 */
-	border-radius: 24px;   /* 你喜欢的大圆角 */
-	margin: 1rem 0;
-	background-color: #1e1e2e !important; /* 直接在这里锁定主题背景 */
-	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-	border: 1px solid rgba(0, 0, 0, 0.1);
-	overflow-x: auto;      /* 防止代码溢出 */
-}
-
-/* 删掉那个霸道的 all: unset，改用更温和的继承 */
-pre > code {
-	padding: 0;
-	background-color: transparent;
-	border-radius: 0;
-	font-size: 1.3rem;
-	line-height: 1;      /* 舒适的行间距 */
-	color: inherit;        /* 让 Shiki 控制颜色 */
-}
-blockquote {
-	border-left: 4px solid var(--accent);
-	padding: 0 0 0 20px;
-	margin: 0;
-	font-size: 1.333em;
-}
-hr {
-	border: none;
-	border-top: 1px solid rgb(var(--gray-light));
-}
-@media (max-width: 720px) {
-	body {
-		font-size: 18px;
-	}
-	main {
-		padding: 1em;
-	}
-}
-
-.sr-only {
-	border: 0;
-	padding: 0;
-	margin: 0;
-	position: absolute !important;
-	height: 1px;
-	width: 1px;
-	overflow: hidden;
-	/* IE6, IE7 - a 0 height clip, off to the bottom right of the visible 1px box */
-	clip: rect(1px 1px 1px 1px);
-	/* maybe deprecated but we need to support legacy browsers */
-	clip: rect(1px, 1px, 1px, 1px);
-	/* modern browsers, clip-path works inwards from each corner */
-	clip-path: inset(50%);
-	/* added line to stop words getting smushed together (as they go onto separate lines and some screen readers do not understand line feeds as a space */
-	white-space: nowrap;
-}
-
-/* 复制按钮 - 绝对定位在 wrapper 上，实现不随滚动条移动 */
-.copy-button {
-	position: absolute;
-	top: 12px;
-	right: 12px;
-	z-index: 20; /* 确保在代码上方 */
-	
-	padding: 5px 12px;
-	font-size: 12px;
-	color: rgba(255, 255, 255, 0.7);
-	background: rgba(255, 255, 255, 0.1);
-	border: 1px solid rgba(255, 255, 255, 0.2);
-	border-radius: 6px;
-	cursor: pointer;
-	backdrop-filter: blur(8px);
-	transition: all 0.2s ease;
-	opacity: 0; /* 默认隐藏 */
-}
-
-/* 鼠标移入外壳时显示按钮 */
-.code-wrapper:hover .copy-button {
-	opacity: 1;
-}
-
-.copy-button:hover {
-	background: rgba(255, 255, 255, 0.2);
-	color: #fff;
-}
-
-.copy-button.active {
-	background: #27c93f !important;
-	border-color: #27c93f;
-	color: white;
-}
-
-.header-wrapper {
-	position: sticky;
-	top: 0;
-	z-index: 1000;
-	width: 100%;
-}
+@media (max-width: 360px) { .container { width: calc(100% - 32px); } .internal-links { gap: 12px; } }
 

@@ -1,41 +1,53 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_HANDLE } from '../consts';
 ---
-
 <!doctype html>
 <html lang="en">
-	<head><BaseHead title="About — Zhenyu Luo" description="About Zhenyu Luo, a software developer and Master of Information Technology student in Auckland building practical web, Android, and AI-enabled products." /></head>
-	<body class="about-page">
-		<Header />
-		<main>
-			<section class="about-hero" aria-labelledby="about-title"><p class="eyebrow">About the developer <span>/</span> Auckland, NZ</p><h1 id="about-title">I build software<br /><em>to understand how it works.</em></h1><p class="intro">I'm Zhenyu Luo, a software developer and Master of Information Technology student at the University of Auckland with a Computer Science background.</p></section>
-
-			<section class="about-story" aria-labelledby="story-title"><div class="story-label"><p class="eyebrow">How I work</p><span>From first idea<br />to shipped software</span></div><div class="story-copy"><h2 id="story-title">Learning by building, then staying with the hard parts.</h2><p>Most of my learning happens through making. I enjoy taking an idea from an early prototype through implementation, debugging, testing, validation, deployment, and repeated product decisions.</p><p>My current portfolio includes independent projects such as Appause, EchoLearn, and CareerXP. They span Android, web, and AI-enabled applications, but the common thread is practical software built around a real problem.</p></div></section>
-
-			<section class="principles-section" aria-labelledby="principles-title"><div class="section-heading"><p class="eyebrow">Working principles</p><h2 id="principles-title">The details are part of the work.</h2></div><div class="principles-grid"><article><span class="principle-mark">01</span><h3>Product thinking</h3><p>Start with what should become easier, clearer, or more useful for the person using the software.</p></article><article><span class="principle-mark">02</span><h3>Engineering discipline</h3><p>Work through architecture, edge cases, debugging, tests, and validation instead of stopping at a convincing demo.</p></article><article><span class="principle-mark">03</span><h3>Useful AI</h3><p>AI tools are part of my development workflow, while requirements, review, engineering decisions, and validation remain human responsibilities.</p></article></div></section>
-
-			<section class="focus-section" aria-labelledby="focus-title"><div class="focus-label"><p class="eyebrow">Current focus</p><span>Building and learning<br />in public</span></div><div><h2 id="focus-title">Practical software across web, Android, and AI-enabled applications.</h2><ul><li>TypeScript, JavaScript, React, Next.js, and Astro</li><li>Kotlin, Jetpack Compose, and Android platform APIs</li><li>SQL, Prisma, Firebase, REST APIs, and deployment</li><li>Testing, debugging, Git/GitHub, and product trade-offs</li></ul></div></section>
-
-			<section class="about-cta" aria-labelledby="connect-title"><p class="eyebrow">Keep exploring</p><h2 id="connect-title">Interested in useful software and the work behind it?</h2><div class="cta-links"><a href="/projects">View projects ↗</a><a href="https://github.com/Shmily0826" target="_blank" rel="noreferrer">GitHub ↗</a><a href="/blog">Read the blog ↗</a></div></section>
-		</main>
-		<Footer />
-	</body>
+  <head><BaseHead title={'About this site — ' + SITE_HANDLE} description="A project showcase and engineering notebook covering practical software, implementation decisions, and validation." /></head>
+  <body class="about-page">
+    <Header />
+    <main id="main-content" tabindex="-1" class="container">
+      <section class="page-intro" aria-labelledby="about-title">
+        <h1 id="about-title">About this site.</h1>
+        <p>Projects and engineering notes by {SITE_HANDLE}. A place for the work and the reasoning behind it.</p>
+      </section>
+      <section class="about-story" aria-labelledby="story-title">
+        <div class="story-copy"><h2 id="story-title">What was built,<br />and why it works that way.</h2>
+          <p>This site brings together web and Android projects, technical experiments, and notes from implementation and debugging.</p>
+          <p>The project pages explain the problem, the contribution, the important decisions, and the current limits. The notes go deeper into specific engineering questions.</p>
+          <p>Source code and live applications are linked where available. Screenshots illustrate the interface; validation claims describe only what was actually checked.</p>
+        </div>
+        <aside class="site-index" aria-label="Explore this site">
+          <a href="/projects"><strong>Projects</strong><span>Applications and implementation details</span></a>
+          <a href="/blog"><strong>Engineering notes</strong><span>Debugging, decisions, and lessons learned</span></a>
+          <a href="https://github.com/Shmily0826" target="_blank" rel="noreferrer"><strong>GitHub</strong><span>Public repositories by {SITE_HANDLE}</span></a>
+        </aside>
+      </section>
+      <section class="working-section section" aria-labelledby="principles-title">
+        <div class="section-title"><h2 id="principles-title">How the work is documented</h2></div>
+        <div class="working-row"><h3>Start with the workflow.</h3><p>Appause adds a pause before a distracting app opens. EchoLearn connects video captions to study and review. The starting point is what should become easier for the person using the software.</p></div>
+        <div class="working-row"><h3>Explain the difficult parts.</h3><p>Detection, persistence, recovery, and device behavior are part of the product. The notes describe the decisions and edge cases behind the interface.</p></div>
+        <div class="working-row"><h3>Keep the evidence clear.</h3><p>AI tools are part of the development workflow. Requirements, architecture, review, debugging, and validation still need deliberate engineering decisions. Source code, local checks, and live behavior are distinct kinds of evidence.</p></div>
+      </section>
+    </main>
+    <Footer />
+  </body>
 </html>
-
 <style>
-	:global(:root) { --ink: #202825; --muted: #66716b; --paper: #f4f5ef; --paper-deep: #e8ebe3; --lime: #b9d832; --blue: #90cfe0; --orange: #f5a66d; }
-	:global(body.about-page) { background: var(--paper); color: var(--ink); font-family: 'Manrope', sans-serif; font-size: 16px; line-height: 1.6; }
-	:global(body.about-page) main { width: auto; max-width: none; margin: 0; padding: 0; }
-	:global(body.about-page) h1, :global(body.about-page) h2, :global(body.about-page) h3 { color: var(--ink); font-family: 'Manrope', sans-serif; text-shadow: none; }
-	.about-hero, .about-story, .principles-section, .focus-section, .about-cta { max-width: 1220px; margin: 0 auto; padding-left: 2rem; padding-right: 2rem; }
-	.eyebrow { margin: 0 0 1.2rem; color: var(--muted); font-family: 'DM Mono', monospace; font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; }.eyebrow span { color: var(--lime); }
-	.about-hero { padding-top: 7rem; padding-bottom: 7rem; }.about-hero h1 { max-width: 900px; margin-bottom: 1.8rem; font-size: clamp(3.2rem, 6.5vw, 7rem); letter-spacing: -.09em; line-height: .95; }.about-hero h1 em { color: #78877c; font-style: normal; }.intro { max-width: 650px; color: var(--muted); font-size: 1.1rem; }
-	.about-story { display: grid; grid-template-columns: .8fr 1.2fr; gap: 5rem; padding-top: 5.5rem; padding-bottom: 7rem; border-top: 1px solid #d9ded2; }.story-label span, .focus-label span { color: var(--muted); font-family: 'DM Mono', monospace; font-size: .72rem; }.story-copy { max-width: 720px; }.story-copy h2, .focus-section h2, .about-cta h2 { margin: 0 0 1.2rem; font-size: clamp(2rem, 4vw, 3.4rem); letter-spacing: -.07em; line-height: 1.05; }.story-copy p, .focus-section li, .principles-grid p, .about-cta > p:not(.eyebrow) { color: var(--muted); }
-	.principles-section { padding-top: 5rem; padding-bottom: 7rem; border-top: 1px solid #d9ded2; }.section-heading { margin-bottom: 2.5rem; }.section-heading h2 { margin: 0; font-size: clamp(2rem, 4vw, 3.4rem); letter-spacing: -.07em; line-height: 1.05; }.principles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }.principles-grid article { padding: 1.25rem 1.25rem 1.5rem; border-top: 3px solid var(--lime); background: rgba(255,255,255,.48); }.principles-grid article:nth-child(2) { border-color: var(--blue); }.principles-grid article:nth-child(3) { border-color: var(--orange); }.principle-mark { color: var(--muted); font-family: 'DM Mono', monospace; font-size: .72rem; }.principles-grid h3 { margin: 2rem 0 .7rem; font-size: 1.35rem; letter-spacing: -.05em; }.principles-grid p { margin: 0; font-size: .92rem; line-height: 1.55; }
-	.focus-section { display: grid; grid-template-columns: .8fr 1.2fr; gap: 5rem; padding-top: 5.5rem; padding-bottom: 7rem; border-top: 1px solid #d9ded2; }.focus-section h2 { max-width: 690px; }.focus-section ul { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem 2rem; margin: 2rem 0 0; padding: 0; list-style: none; font-family: 'DM Mono', monospace; font-size: .8rem; }.focus-section li { padding-top: .8rem; border-top: 1px solid #d9ded2; }.about-cta { margin-bottom: 6rem; padding-top: 4rem; padding-bottom: 4rem; border-top: 1px solid #d9ded2; }.about-cta h2 { max-width: 720px; }.cta-links { display: flex; flex-wrap: wrap; gap: 1.25rem; margin-top: 2rem; }.cta-links a { color: var(--ink); font-family: 'DM Mono', monospace; font-size: .78rem; text-decoration: underline; text-decoration-color: var(--lime); text-underline-offset: .35rem; }.cta-links a:hover { color: var(--muted); }
-	:global(body.about-page) :global(a:focus-visible) { outline: 3px solid var(--orange); outline-offset: 4px; }
-	@media (max-width: 800px) { .about-story, .focus-section { grid-template-columns: 1fr; gap: 1rem; }.principles-grid { grid-template-columns: 1fr; }.focus-section ul { grid-template-columns: 1fr 1fr; } }
-	@media (max-width: 520px) { .about-hero, .about-story, .principles-section, .focus-section, .about-cta { padding-left: 1.2rem; padding-right: 1.2rem; }.about-hero { padding-top: 4.5rem; padding-bottom: 4.5rem; }.about-hero h1 { font-size: clamp(3rem, 14vw, 4.5rem); }.about-story, .principles-section, .focus-section { padding-top: 4rem; padding-bottom: 4.5rem; }.focus-section ul { grid-template-columns: 1fr; }.about-cta { margin-bottom: 3rem; } }
+  .about-story { display: grid; grid-template-columns: 1.4fr 1fr; gap: 80px; padding-block: 12px 44px; }
+  .story-copy h2 { font-size: clamp(1.65rem, 3vw, 2.3rem); margin-bottom: 24px; }
+  .story-copy p { color: var(--muted); max-width: 64ch; }
+  .site-index { align-self: start; padding: 16px 28px; background: var(--accent-soft); border-radius: 14px; }
+  .site-index a { display: block; padding-block: 16px; color: var(--ink); text-decoration: none; }
+  .site-index a:hover strong { text-decoration: underline; text-underline-offset: .24em; }
+  .site-index strong { display: block; margin-bottom: 5px; font-size: .95rem; }
+  .site-index span { color: var(--muted); font-size: .85rem; }
+  .working-section { border-top: 1px solid var(--line); }
+  .working-row { display: grid; grid-template-columns: 1fr 1.8fr; gap: 48px; padding-block: 20px; }
+  .working-row h3 { font-size: 1.08rem; }
+  .working-row p { color: var(--muted); max-width: 65ch; font-size: .94rem; margin: 0; }
+  @media (max-width: 700px) { .about-story { grid-template-columns: 1fr; gap: 24px; } .site-index { padding: 12px 24px; } .working-row { grid-template-columns: 1fr; gap: 12px; } }
 </style>

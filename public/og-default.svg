@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <title>Shmily0826 — Projects and Engineering Notes</title>
+  <desc>Web and Android projects, implementation decisions, and engineering notes.</desc>
+  <rect width="1200" height="630" fill="#f6f7f2"/>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="88" y="112" font-size="28" font-weight="700" fill="#315e49">Shmily0826</text>
+    <text x="84" y="267" font-size="76" font-weight="700" letter-spacing="-2" fill="#202d27">Projects &amp;</text>
+    <text x="84" y="357" font-size="76" font-weight="700" letter-spacing="-2" fill="#315e49">engineering notes.</text>
+    <text x="88" y="428" font-size="25" fill="#5c6961">Web · Android · Implementation decisions</text>
+    <path d="M88 510H1112" stroke="#d8dfd3"/>
+    <text x="88" y="563" font-size="22" fill="#5c6961">github.com/Shmily0826</text>
+  </g>
+</svg>

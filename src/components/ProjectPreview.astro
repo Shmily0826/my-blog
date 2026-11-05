@@ -1,0 +1,50 @@
+---
+import { Image } from 'astro:assets';
+import appauseGroup from '../assets/projects/appause-group.webp';
+import appausePause from '../assets/projects/appause-pause.webp';
+import echolearnStudy from '../assets/projects/echolearn-study.png';
+import skyScout from '../assets/projects/sky-scout.png';
+import rippleWorkflow from '../assets/projects/ripple-workflow.png';
+import type { featuredProjects } from '../data/projects';
+interface Props { id: (typeof featuredProjects)[number]['id']; eager?: boolean; }
+const { id, eager = false } = Astro.props;
+const projectImage = id === 'sky-scout' ? skyScout : rippleWorkflow;
+---
+<figure class:list={['project-preview', id]}>
+	<div class="preview-surface">
+		{id === 'appause' ? (
+			<div class="phone-pair">
+				<Image src={appauseGroup} widths={[240, 360]} sizes="(max-width: 600px) 130px, 190px" alt="Appause group settings with a cooldown and selected apps" loading={eager ? 'eager' : 'lazy'} />
+				<Image src={appausePause} widths={[240, 360]} sizes="(max-width: 600px) 130px, 190px" alt="Appause pause overlay showing a countdown before opening YouTube" loading={eager ? 'eager' : 'lazy'} />
+			</div>
+		) : id === 'echolearn' ? (
+			<Image class="study-screen" src={echolearnStudy} widths={[600, 900, 1265]} sizes="(max-width: 700px) 90vw, 600px" alt="EchoLearn guest sample lesson with a video, interactive transcript, and local audio and subtitle import" loading={eager ? 'eager' : 'lazy'} />
+		) : (
+			<a class="full-preview" href={projectImage.src} aria-label={'Enlarge ' + (id === 'sky-scout' ? 'Sky Scout screenshot' : 'Ripple Cart Rescue workflow diagram')}>
+				<Image src={projectImage} widths={[600, 1000, 1440]} sizes="(max-width: 700px) 90vw, 600px" alt={id === 'sky-scout' ? 'Sky Scout Web sky map showing planets, a time slider, and exploration controls' : 'Illustrative Ripple workflow: Shopify checkout signals, Gemini decisions, Bloomreach activation, and outcome history feeding the next decision'} loading={eager ? 'eager' : 'lazy'} />
+			</a>
+		)}
+	</div>
+	<figcaption>{id === 'appause' ? 'Group settings and pause overlay' : id === 'echolearn' ? 'Public sample lesson · Guest view' : id === 'sky-scout' ? 'Earlier Web sky-map capture · Select image to enlarge' : 'Workflow illustration from the hackathon presentation · Select image to enlarge'}</figcaption>
+</figure>
+<style>
+	.project-preview { margin: 0; min-width: 0; }
+	.preview-surface { height: 330px; overflow: hidden; border-radius: 14px; display: grid; place-items: center; }
+	.appause .preview-surface { background: #202737; }
+	.echolearn .preview-surface { background: #242a3c; padding: 24px; }
+	.phone-pair { display: flex; gap: 18px; align-items: flex-start; padding-top: 36px; height: 100%; }
+	.phone-pair img { width: auto; height: 380px; border-radius: 12px; box-shadow: 0 12px 28px #080c1660; }
+	.phone-pair img:last-child { margin-top: 36px; }
+	.study-screen { width: 100%; height: auto; border-radius: 8px; box-shadow: 0 12px 28px #080c1660; }
+	.sky-scout .preview-surface, .ripple-cart-rescue .preview-surface { height: auto; background: var(--surface); }
+	.full-preview { display: block; width: 100%; }
+	.full-preview img { width: 100%; height: auto; }
+	figcaption { margin-top: 10px; color: var(--muted); font-size: .75rem; }
+	@media (max-width: 700px) {
+		.preview-surface { height: 260px; }
+		.echolearn .preview-surface { padding: 16px; }
+		.phone-pair { gap: 14px; padding-top: 24px; }
+		.phone-pair img { height: 305px; }
+		.phone-pair img:last-child { margin-top: 26px; }
+	}
+</style>

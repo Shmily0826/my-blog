@@ -1,273 +1,44 @@
 ---
-import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
-import FormattedDate from '../../components/FormattedDate.astro';
 import Header from '../../components/Header.astro';
-
-const BLOG_TITLE = 'Blog — Zhenyu Luo';
-const BLOG_DESCRIPTION =
-	'Notes on building practical software across web, Android, and AI-enabled applications.';
-
-const posts = (await getCollection('blog', ({ data }) => data.draft === false)).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
+import FormattedDate from '../../components/FormattedDate.astro';
+import { SITE_HANDLE } from '../../consts';
+const posts = (await getCollection('blog', ({ data }) => data.draft === false))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
-
 <!doctype html>
 <html lang="en">
-	<head>
-		<BaseHead title={BLOG_TITLE} description={BLOG_DESCRIPTION} />
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap');
-			:global(:root) {
-				--ink: #202825;
-				--muted: #66716b;
-				--paper: #f4f5ef;
-				--paper-deep: #e8ebe3;
-				--lime: #b9d832;
-				--blue: #90cfe0;
-				--orange: #f5a66d;
-			}
-			:global(body.blog-page) {
-				min-width: 0;
-				background: var(--paper);
-				color: var(--ink);
-				font-family: 'Manrope', sans-serif;
-				font-size: 16px;
-				line-height: 1.6;
-			}
-			:global(body.blog-page) main {
-				box-sizing: border-box;
-				width: 100%;
-				max-width: none;
-				margin: 0;
-				padding: 0;
-			}
-			:global(body.blog-page) h1,
-			:global(body.blog-page) h2,
-			:global(body.blog-page) h3 {
-				color: var(--ink) !important;
-				font-family: 'Manrope', sans-serif;
-				text-shadow: none;
-			}
-			:global(body.blog-page) a {
-				color: inherit;
-			}
-			:global(body.blog-page time) {
-				color: var(--muted) !important;
-				font-size: inherit;
-			}
-			.blog-main,
-			.blog-hero,
-			.posts-section {
-				box-sizing: border-box;
-				width: min(100%, 1220px);
-				margin: 0 auto;
-				padding-left: 2rem;
-				padding-right: 2rem;
-			}
-			.blog-hero {
-				padding-top: 7rem;
-				padding-bottom: 7rem;
-			}
-			.eyebrow {
-				margin: 0 0 1.2rem;
-				color: var(--muted);
-				font-family: 'DM Mono', monospace;
-				font-size: .72rem;
-				letter-spacing: .08em;
-				text-transform: uppercase;
-			}
-			.eyebrow span {
-				color: var(--lime);
-			}
-			.blog-hero h1 {
-				max-width: 850px;
-				margin: 0 0 1.8rem;
-				font-size: clamp(3.3rem, 7vw, 6.8rem);
-				font-weight: 800;
-				letter-spacing: -.09em;
-				line-height: .95;
-			}
-			.blog-hero h1 em {
-				color: #78877c;
-				font-style: normal;
-			}
-			.blog-lede {
-				max-width: 620px;
-				margin: 0;
-				color: var(--muted);
-				font-size: 1.08rem;
-			}
-			.posts-section {
-				padding-top: 5.5rem;
-				padding-bottom: 7rem;
-				border-top: 1px solid #d9ded2;
-			}
-			.section-heading {
-				margin-bottom: 2.5rem;
-			}
-			.section-heading h2 {
-				margin: 0;
-				font-size: clamp(2rem, 4vw, 3.4rem);
-				letter-spacing: -.07em;
-				line-height: 1.05;
-			}
-			.post-list {
-				margin: 0;
-				padding: 0;
-				list-style: none;
-			}
-			.post-list > li {
-				border-top: 1px solid #d9ded2;
-			}
-			.post-card {
-				display: grid;
-				grid-template-columns: minmax(180px, .42fr) minmax(0, 1fr);
-				gap: 2.5rem;
-				padding: 1.5rem 0;
-			}
-			.post-image {
-				display: block;
-				aspect-ratio: 16 / 9;
-				overflow: hidden;
-				background: var(--paper-deep);
-			}
-			.post-image img {
-				display: block;
-				width: 100%;
-				height: 100%;
-				object-fit: cover;
-				border-radius: 0;
-				transition: transform .2s ease;
-			}
-			.post-card:hover .post-image img {
-				transform: scale(1.02);
-			}
-			.post-copy {
-				display: flex;
-				min-width: 0;
-				flex-direction: column;
-				align-items: flex-start;
-				justify-content: center;
-			}
-			.post-meta {
-				display: flex;
-				flex-wrap: wrap;
-				gap: .7rem;
-				margin-bottom: 1rem;
-				color: var(--muted);
-				font-family: 'DM Mono', monospace;
-				font-size: .72rem;
-				text-transform: uppercase;
-			}
-			.post-meta span {
-				color: var(--lime);
-			}
-			.post-copy h3 {
-				margin: 0 0 .75rem;
-				font-size: clamp(1.5rem, 3vw, 2.5rem);
-				letter-spacing: -.06em;
-				line-height: 1.05;
-			}
-			.post-copy h3 a {
-				text-decoration: none;
-			}
-			.post-copy h3 a:hover {
-				color: var(--muted) !important;
-			}
-			.post-description {
-				max-width: 620px;
-				margin: 0 0 1.35rem;
-				color: var(--muted);
-			}
-			.read-link {
-				color: var(--ink);
-				font-family: 'DM Mono', monospace;
-				font-size: .78rem;
-				text-decoration: underline;
-				text-decoration-color: var(--lime);
-				text-underline-offset: .35rem;
-			}
-			.read-link:hover {
-				color: var(--muted);
-			}
-			:global(body.blog-page) :global(a:focus-visible) {
-				outline: 3px solid var(--orange);
-				outline-offset: 4px;
-			}
-			@media (max-width: 700px) {
-				.blog-hero,
-				.posts-section {
-					padding-left: 1.2rem;
-					padding-right: 1.2rem;
-				}
-				.blog-hero {
-					padding-top: 4.5rem;
-					padding-bottom: 4.5rem;
-				}
-				.blog-hero h1 {
-					font-size: clamp(3rem, 14vw, 4.5rem);
-				}
-				.posts-section {
-					padding-top: 4rem;
-					padding-bottom: 4.5rem;
-				}
-				.post-card {
-					grid-template-columns: 1fr;
-					gap: 1.25rem;
-				}
-				.post-image {
-					max-width: 420px;
-				}
-			}
-		</style>
-	</head>
-	<body class="blog-page">
-		<Header />
-		<main class="blog-main">
-			<section class="blog-hero" aria-labelledby="blog-title">
-				<p class="eyebrow">Writing <span>/</span> Notes</p>
-				<h1 id="blog-title">Notes from building <em>useful software.</em></h1>
-				<p class="blog-lede">
-					Technical notes from learning, debugging, and shipping practical web, Android, and
-					AI-enabled projects.
-				</p>
-			</section>
-
-			<section class="posts-section" aria-labelledby="posts-title">
-				<header class="section-heading">
-					<p class="eyebrow">Published notes</p>
-					<h2 id="posts-title">Recent writing</h2>
-				</header>
-				<ul class="post-list">
-					{posts.map((post) => (
-						<li>
-							<article class="post-card">
-								{post.data.heroImage && (
-									<a class="post-image" href={`/blog/${post.id}/`} aria-label={`Read ${post.data.title}`}>
-										<Image width={720} height={405} src={post.data.heroImage} alt="" />
-									</a>
-								)}
-								<div class="post-copy">
-									<div class="post-meta">
-										<span>Published</span>
-										<FormattedDate date={post.data.pubDate} />
-									</div>
-									<h3><a href={`/blog/${post.id}/`}>{post.data.title}</a></h3>
-									<p class="post-description">{post.data.description}</p>
-									<a class="read-link" href={`/blog/${post.id}/`}>
-										Read note <span aria-hidden="true">↗</span>
-									</a>
-								</div>
-							</article>
-						</li>
-					))}
-				</ul>
-			</section>
-		</main>
-		<Footer />
-	</body>
+  <head><BaseHead title={'Blog — ' + SITE_HANDLE} description="Engineering notes from building, debugging, and learning across web, Android, and AI-enabled projects." /></head>
+  <body class="blog-page">
+    <Header />
+    <main id="main-content" tabindex="-1" class="container">
+      <section class="page-intro" aria-labelledby="blog-title"><h1 id="blog-title">Engineering notes.</h1><p>Things I built, problems I worked through, and what I learned along the way.</p></section>
+      <section class="posts-section" aria-labelledby="posts-title">
+        <h2 id="posts-title" class="sr-only">Recent writing</h2>
+        <ul class="post-list">{posts.map((post) => <li><article class="post-card">
+          <div class="post-meta"><FormattedDate date={post.data.pubDate} /><span>{post.data.lang === 'en' ? 'English' : '中文'}</span></div>
+          <div class="post-copy"><h3><a href={'/blog/' + post.id + '/'}>{post.data.title}</a></h3><p>{post.data.description}</p><a class="text-link" href={'/blog/' + post.id + '/'} aria-label={'Read ' + post.data.title}>Read note</a></div>
+        </article></li>)}</ul>
+        {posts.length === 0 && <p class="empty-note">No published notes yet. You can explore the projects in the meantime.</p>}
+      </section>
+      <aside class="blog-next"><p>The projects behind the notes.</p><a class="text-link" href="/projects">Explore projects</a><a class="text-link" href="/rss.xml">Subscribe via RSS</a></aside>
+    </main>
+    <Footer />
+  </body>
 </html>
+<style>
+  .posts-section { min-height: 240px; padding-bottom: 40px; }
+  .post-list { list-style: none; margin: 0; padding: 0; }
+  .post-card { display: grid; grid-template-columns: 170px 1fr; gap: 48px; padding-block: 32px; border-top: 1px solid var(--line); }
+  .post-meta { display: flex; flex-direction: column; gap: 8px; color: var(--muted); font-size: .8rem; padding-top: 5px; }
+  .post-copy h3 { max-width: 28ch; font-size: clamp(1.5rem, 3vw, 2.1rem); margin-bottom: 18px; }
+  .post-copy h3 a { color: var(--ink); text-decoration: none; }
+  .post-copy h3 a:hover { text-decoration: underline; }
+  .post-copy p { max-width: 62ch; color: var(--muted); }
+  .blog-next { display: flex; flex-wrap: wrap; align-items: center; gap: 24px; padding-block: 24px; border-top: 1px solid var(--line); }
+  .blog-next p { margin: 0 auto 0 0; color: var(--muted); }
+  .empty-note { color: var(--muted); }
+  @media (max-width: 700px) { .post-card { grid-template-columns: 1fr; gap: 16px; padding-block: 24px; } .post-meta { flex-direction: row; gap: 16px; } .blog-next { gap: 12px 24px; } .blog-next p { width: 100%; } }
+</style>
