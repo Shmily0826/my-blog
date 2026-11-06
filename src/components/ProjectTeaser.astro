@@ -1,13 +1,13 @@
 ---
 import ProjectPreview from './ProjectPreview.astro';
 import type { featuredProjects } from '../data/projects';
-interface Props { project: (typeof featuredProjects)[number]; spotlight?: boolean; }
-const { project, spotlight = false } = Astro.props;
+interface Props { project: (typeof featuredProjects)[number]; spotlight?: boolean; homeCover?: boolean; }
+const { project, spotlight = false, homeCover = false } = Astro.props;
 const href = '/projects/' + project.id + '/';
 const demo = project.links.find((link) => link.label === 'Watch the demo');
 ---
-<article class:list={['project-teaser', { spotlight }]} id={project.id}>
-  <ProjectPreview id={project.id} href={href} />
+<article class:list={['project-teaser', { spotlight, 'home-spotlight': homeCover && spotlight }]} id={project.id}>
+  <ProjectPreview id={project.id} href={href} homeCover={homeCover} />
   <div class="teaser-copy">
     <h3><a href={href}>{project.name}</a></h3>
     <p class="project-category">{project.category}</p>
@@ -30,6 +30,7 @@ const demo = project.links.find((link) => link.label === 'Watch the demo');
   .project-status { font-size: .78rem; color: var(--muted); margin-bottom: 4px; }
   .teaser-links { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px; margin-top: 12px; }
   .spotlight { display: grid; grid-template-columns: 1.3fr 1fr; gap: 48px; align-items: center; }
+  .home-spotlight { grid-template-columns: 1fr 1.2fr; }
   .spotlight .teaser-copy { padding-top: 0; }
   .spotlight h3 { font-size: 2.25rem; }
   .spotlight .project-description { font-size: 1.45rem; max-width: 25ch; }

@@ -40,8 +40,8 @@ const posts = (await getCollection('blog', ({ data }) => data.draft === false))
           <h2 id="projects-title">Selected work.</h2>
           <p>Android tools, stargazing, and an AI experiment.</p>
         </div>
-        <ProjectTeaser project={appause} spotlight />
-        <div class="project-pair"><ProjectTeaser project={skyScout} /><ProjectTeaser project={ripple} /></div>
+        <ProjectTeaser project={appause} spotlight homeCover />
+        <div class="project-pair"><ProjectTeaser project={skyScout} homeCover /><ProjectTeaser project={ripple} homeCover /></div>
         <a class="text-link all-work" href="/projects">All projects and earlier experiments</a>
       </section>
 
